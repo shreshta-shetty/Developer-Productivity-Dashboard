@@ -640,11 +640,8 @@ body {
 /* ACTIVITY BARS */
 .bar {
     width: 28px;
-
     background: #2563eb;
-
     border-radius: 5px 5px 0 0;
-
     opacity: 0.85;
 }
 
