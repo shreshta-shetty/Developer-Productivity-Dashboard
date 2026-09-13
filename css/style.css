@@ -536,91 +536,108 @@ body {
 /* =========================================
    RESPONSIVE DESIGN
 ========================================= */
+/* =========================================
+   TABLET
+========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
     .sidebar {
-    width: 240px;
-    min-height: 100vh;
-
-    background: #111827;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 26px 16px;
-
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    border-right: 1px solid #1f2937;
-}
+        width: 210px;
+    }
 
     .main-content {
-    margin-left: 240px;
+        margin-left: 210px;
+        width: calc(100% - 210px);
 
-    width: calc(100% - 240px);
+        padding: 28px;
+    }
 
-    padding: 36px 40px;
-}
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-    .projects-grid {
-        grid-template-columns: 1fr;
+    .stat-card:last-child {
+        grid-column: span 2;
     }
 
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
 
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
 }
 
 
-@media (max-width: 650px) {
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
 
     .sidebar {
-    width: 240px;
-    min-height: 100vh;
-
-    background: #111827;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 26px 16px;
-
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    border-right: 1px solid #1f2937;
-}
+        display: none;
+    }
 
     .main-content {
-    margin-left: 240px;
+        margin-left: 0;
 
-    width: calc(100% - 240px);
+        width: 100%;
 
-    padding: 36px 40px;
-}
+        padding: 20px 16px;
+    }
 
     .topbar {
-        align-items: flex-start;
+        margin-bottom: 24px;
+    }
+
+    .welcome h1 {
+        font-size: 24px;
+    }
+
+    .welcome p {
+        font-size: 13px;
     }
 
     .profile span {
         display: none;
     }
 
+    .topbar-actions {
+        gap: 10px;
+    }
+
     .stats {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+    .stat-card:last-child {
+        grid-column: auto;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+    }
+
+    .projects-grid {
         grid-template-columns: 1fr;
     }
 
+    .activity-card,
+    .tasks-card,
+    .projects-section {
+        padding: 18px;
+    }
+
 }
+/* ACTIVITY BARS */
 .bar {
     width: 28px;
 
