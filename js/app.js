@@ -31,8 +31,13 @@ addTaskButton.addEventListener("click", function () {
 
         taskList.appendChild(task);
         check.addEventListener("click", function () {
+    if (task.classList.contains("completed")) {
+        check.textContent = "";
+        task.classList.remove("completed");
+    } else {
         check.textContent = "✓";
         task.classList.add("completed");
+    }
 });
     }
 });
