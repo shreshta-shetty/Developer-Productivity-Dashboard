@@ -672,3 +672,14 @@ body {
 .bar-7 {
     height: 110px;
 }
+.task-list {
+    margin-top: 15px;
+}
+
+.task-list p {
+    padding: 12px 14px;
+    margin: 8px 0;
+    background: #f5f7fb;
+    border-radius: 8px;
+    font-size: 14px;
+}

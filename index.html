@@ -51,7 +51,6 @@
                     <p>Track your progress. Keep building.</p>
                 </div>
 
-
                 <div class="topbar-actions">
 
                     <button class="theme-btn">☾</button>
@@ -60,7 +59,9 @@
                         <div class="avatar">S</div>
                         <span>User</span>
                     </div>
+
                 </div>
+
             </header>
 
 
@@ -68,31 +69,21 @@
             <section class="stats">
 
                 <div class="stat-card">
-
                     <span class="stat-label">Projects</span>
-
                     <strong>12</strong>
-
                     <small>+2 this month</small>
-
                 </div>
 
-
                 <div class="stat-card">
-
                     <span class="stat-label">Tasks</span>
                     <strong>48</strong>
                     <small>8 completed today</small>
-
                 </div>
 
-
                 <div class="stat-card">
-
                     <span class="stat-label">Goals</span>
                     <strong>87%</strong>
                     <small>Overall progress</small>
-
                 </div>
 
             </section>
@@ -101,6 +92,7 @@
             <!-- ================= CONTENT AREA ================= -->
             <section class="dashboard-grid">
 
+                <!-- WEEKLY ACTIVITY -->
                 <div class="activity-card">
 
                     <div class="section-header">
@@ -127,6 +119,7 @@
                 </div>
 
 
+                <!-- TODAY'S TASKS -->
                 <div class="tasks-card">
 
                     <div class="section-header">
@@ -258,14 +251,47 @@
                 </div>
 
             </section>
+
+
+            <!-- ================= TASKS ================= -->
             <section id="tasks">
-                <button class="add-task-btn">+ Add Task</button>
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Tasks</h2>
+                        <p>Add and manage your tasks</p>
+                    </div>
+
+                    <button class="add-task-btn">
+                        + Add Task
+                    </button>
+
+                </div>
+
+                <!-- JavaScript will add new tasks here -->
                 <div class="task-list"></div>
+
             </section>
+
+
+            <!-- Future sections will be added here -->
+
+            <section id="goals"></section>
+
+            <section id="gitHub"></section>
+
+            <section id="analytics"></section>
+
+
         </main>
 
     </div>
+
+
+    <!-- JavaScript -->
     <script src="js/app.js"></script>
+
 </body>
 
 </html>

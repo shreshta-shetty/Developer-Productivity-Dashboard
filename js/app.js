@@ -10,7 +10,7 @@ themeButton.addEventListener("click", function () {
 
 });
 const addTaskButton = document.querySelector(".add-task-btn");
-const taskList = document.querySelector(".task-list");
+const taskList = document.querySelector("#tasks .task-list");
 
 addTaskButton.addEventListener("click", function () {
     const taskName = prompt("Enter your task:");
