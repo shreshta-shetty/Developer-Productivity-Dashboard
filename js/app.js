@@ -16,13 +16,25 @@ addTaskButton.addEventListener("click", function () {
     const taskName = prompt("Enter your task:");
 
     if (taskName) {
-    const task = document.createElement("p");
-    task.textContent = taskName;
 
-    taskList.appendChild(task);
+        const task = document.createElement("div");
+        task.classList.add("task");
 
-    console.log("Task added:", task);
-    console.log("Task list:", taskList);
-}
+        const check = document.createElement("span");
+        check.classList.add("task-check");
+
+        const text = document.createElement("span");
+        text.textContent = taskName;
+
+        task.appendChild(check);
+        task.appendChild(text);
+
+        taskList.appendChild(task);
+        check.addEventListener("click", function () {
+        check.textContent = "✓";
+        task.classList.add("completed");
 });
+    }
+});
+
 console.log("Task JavaScript is running");
