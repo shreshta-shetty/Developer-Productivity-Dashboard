@@ -414,15 +414,10 @@ body {
     justify-content: center;
 
     color: white;
-
+    
     font-size: 12px;
 }
 
-.task:first-child .task-check {
-    background: #2563eb;
-
-    border-color: #2563eb;
-}
 
 
 /* =========================================
