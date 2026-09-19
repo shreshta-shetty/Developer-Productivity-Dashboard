@@ -93,7 +93,6 @@ addTaskButton.addEventListener("click", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
         createTask(newTask);
-
     }
 
 });
