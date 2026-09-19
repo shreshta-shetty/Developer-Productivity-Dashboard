@@ -17,57 +17,82 @@ const taskList = document.querySelector("#tasks .task-list");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 
-function createTask(taskName) {
+// Create a task
+function createTask(task) {
 
-    const task = document.createElement("div");
-    task.classList.add("task");
+    const taskElement = document.createElement("div");
+    taskElement.classList.add("task");
 
     const check = document.createElement("span");
     check.classList.add("task-check");
 
     const text = document.createElement("span");
-    text.textContent = taskName;
+    text.textContent = task.name;
 
-    task.appendChild(check);
-    task.appendChild(text);
+    taskElement.appendChild(check);
+    taskElement.appendChild(text);
 
-    taskList.appendChild(task);
+    taskList.appendChild(taskElement);
 
 
+    // Complete / uncomplete task
     check.addEventListener("click", function () {
 
-        if (task.classList.contains("completed")) {
+        if (taskElement.classList.contains("completed")) {
 
             check.textContent = "";
-            task.classList.remove("completed");
+            taskElement.classList.remove("completed");
+
+            task.completed = false;
 
         } else {
 
             check.textContent = "✓";
-            task.classList.add("completed");
+            taskElement.classList.add("completed");
+
+            task.completed = true;
 
         }
 
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
     });
+
+
+    // Show completed status
+    if (task.completed) {
+
+        check.textContent = "✓";
+        taskElement.classList.add("completed");
+
+    }
 
 }
 
 
-tasks.forEach(function (taskName) {
-    createTask(taskName);
+// Load saved tasks
+tasks.forEach(function (task) {
+    createTask(task);
 });
 
+
+// Add new task
 addTaskButton.addEventListener("click", function () {
 
     const taskName = prompt("Enter your task:");
 
     if (taskName) {
 
-        tasks.push(taskName);
+        const newTask = {
+            name: taskName,
+            completed: false
+        };
+
+        tasks.push(newTask);
 
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
-        createTask(taskName);
+        createTask(newTask);
 
     }
 
