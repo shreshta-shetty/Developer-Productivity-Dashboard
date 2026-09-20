@@ -89,13 +89,10 @@ function createTask(task) {
 }
 
 
-// Load saved tasks
 tasks.forEach(function (task) {
     createTask(task);
 });
 
-
-// Add new task
 addTaskButton.addEventListener("click", function () {
 
     const taskName = prompt("Enter your task:");
