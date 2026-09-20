@@ -718,3 +718,10 @@ body {
     color: white;
     border-color: #2563eb;
 }
+.delete-task {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+}

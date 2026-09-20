@@ -29,8 +29,13 @@ function createTask(task) {
     const text = document.createElement("span");
     text.textContent = task.name;
 
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "🗑️";
+    deleteButton.classList.add("delete-task");
+
     taskElement.appendChild(check);
     taskElement.appendChild(text);
+    taskElement.appendChild(deleteButton);
 
     taskList.appendChild(taskElement);
 
@@ -67,6 +72,20 @@ function createTask(task) {
 
     }
 
+
+    // Delete task
+    deleteButton.addEventListener("click", function () {
+
+        taskElement.remove();
+
+        tasks = tasks.filter(function (item) {
+            return item !== task;
+        });
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    });
+
 }
 
 
@@ -93,6 +112,7 @@ addTaskButton.addEventListener("click", function () {
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
         createTask(newTask);
+
     }
 
 });
