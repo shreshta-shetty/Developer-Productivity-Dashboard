@@ -725,3 +725,8 @@ body {
     cursor: pointer;
     font-size: 16px;
 }
+.task-date {
+    margin-left: auto;
+    font-size: 13px;
+    color: #777;
+}
