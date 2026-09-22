@@ -474,7 +474,6 @@ function createProject(project) {
 
     projectsGrid.appendChild(projectCard);
 
-
     // Delete project
     const deleteButton = projectCard.querySelector(".delete-project");
 
