@@ -1,3 +1,7 @@
+// ===============================
+// THEME BUTTON
+// ===============================
+
 const themeButton = document.querySelector(".theme-btn");
 
 themeButton.addEventListener("click", function () {
@@ -11,6 +15,10 @@ themeButton.addEventListener("click", function () {
 });
 
 
+// ===============================
+// TASK ELEMENTS
+// ===============================
+
 const addTaskButton = document.querySelector(".add-task-btn");
 
 const taskList = document.querySelector("#tasks .task-list");
@@ -18,10 +26,24 @@ const taskList = document.querySelector("#tasks .task-list");
 const todayTaskList = document.querySelector(".tasks-card .task-list");
 
 
+// ===============================
+// PROJECT ELEMENT
+// ===============================
+
+const addProjectButton = document.querySelector(".add-project-btn");
+
+
+// ===============================
+// TASK DATA
+// ===============================
+
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 
-// Get today's date
+// ===============================
+// GET TODAY'S DATE
+// ===============================
+
 function getTodayDate() {
 
     const today = new Date();
@@ -36,7 +58,10 @@ function getTodayDate() {
 }
 
 
-// Format task date
+// ===============================
+// FORMAT TASK DATE
+// ===============================
+
 function formatTaskDate(taskDate) {
 
     if (!taskDate) {
@@ -74,7 +99,10 @@ function formatTaskDate(taskDate) {
 }
 
 
-// Create task in main Tasks section
+// ===============================
+// CREATE TASK
+// ===============================
+
 function createTask(task) {
 
     const taskElement = document.createElement("div");
@@ -118,7 +146,7 @@ function createTask(task) {
     taskList.appendChild(taskElement);
 
 
-    // Complete / uncomplete
+    // Complete / uncomplete task
     check.addEventListener("click", function () {
 
         if (taskElement.classList.contains("completed")) {
@@ -143,13 +171,12 @@ function createTask(task) {
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
 
-        // Update Today's Tasks
         renderTodayTasks();
 
     });
 
 
-    // Show completed task
+    // Show completed status
     if (task.completed) {
 
         check.textContent = "✓";
@@ -175,7 +202,6 @@ function createTask(task) {
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
 
-        // Update Today's Tasks
         renderTodayTasks();
 
     });
@@ -183,7 +209,10 @@ function createTask(task) {
 }
 
 
-// Show only today's tasks on dashboard
+// ===============================
+// TODAY'S TASKS
+// ===============================
+
 function renderTodayTasks() {
 
     todayTaskList.innerHTML = "";
@@ -234,7 +263,7 @@ function renderTodayTasks() {
         }
 
 
-        // Complete / uncomplete today's task
+        // Complete / uncomplete
         check.addEventListener("click", function () {
 
             if (taskElement.classList.contains("completed")) {
@@ -262,6 +291,7 @@ function renderTodayTasks() {
             // Refresh main task list
             taskList.innerHTML = "";
 
+
             tasks.forEach(function (task) {
 
                 createTask(task);
@@ -275,7 +305,10 @@ function renderTodayTasks() {
 }
 
 
-// Load saved tasks
+// ===============================
+// LOAD SAVED TASKS
+// ===============================
+
 tasks.forEach(function (task) {
 
     createTask(task);
@@ -283,11 +316,13 @@ tasks.forEach(function (task) {
 });
 
 
-// Load today's tasks
 renderTodayTasks();
 
 
-// Add new task
+// ===============================
+// ADD TASK
+// ===============================
+
 addTaskButton.addEventListener("click", function () {
 
     const taskName = prompt("Enter your task:");
@@ -318,9 +353,144 @@ addTaskButton.addEventListener("click", function () {
         createTask(newTask);
 
 
-        // Update Today's Tasks
         renderTodayTasks();
 
     }
 
 });
+
+// ===============================
+// PROJECT DATA
+// ===============================
+
+let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+const projectsGrid = document.querySelector(".projects-grid");
+
+
+// ===============================
+// CREATE PROJECT CARD
+// ===============================
+
+function createProject(project) {
+
+    const projectCard = document.createElement("div");
+
+    projectCard.classList.add("project-card");
+
+    projectCard.innerHTML = `
+        <div class="project-icon">💻</div>
+
+        <div class="project-info">
+
+            <h3>${project.name}</h3>
+
+            <p>${project.description}</p>
+
+            <div class="tags">
+                <span>${project.technology}</span>
+            </div>
+
+        </div>
+    `;
+
+    projectsGrid.appendChild(projectCard);
+}
+
+
+// ===============================
+// LOAD SAVED PROJECTS
+// ===============================
+
+projects.forEach(function (project) {
+
+    createProject(project);
+
+});
+
+
+// ===============================
+// ADD PROJECT
+// ===============================
+
+addProjectButton.addEventListener("click", function () {
+
+    const projectName = prompt("Enter project name:");
+
+    if (projectName) {
+
+        const projectDescription = prompt("Enter project description:");
+
+        const projectTechnology = prompt("Enter technology used:");
+
+        const newProject = {
+
+            name: projectName,
+
+            description: projectDescription || "New project",
+
+            technology: projectTechnology || "JavaScript"
+
+        };
+
+
+        projects.push(newProject);
+
+
+        localStorage.setItem(
+            "projects",
+            JSON.stringify(projects)
+        );
+
+
+        createProject(newProject);
+
+    }
+
+});
+function createProject(project) {
+
+    const projectCard = document.createElement("div");
+
+    projectCard.classList.add("project-card");
+
+    projectCard.innerHTML = `
+        <div class="project-icon">💻</div>
+
+        <div class="project-info">
+
+            <h3>${project.name}</h3>
+
+            <p>${project.description}</p>
+
+            <div class="tags">
+                <span>${project.technology}</span>
+            </div>
+
+            <button class="delete-project">🗑️ Delete</button>
+
+        </div>
+    `;
+
+    projectsGrid.appendChild(projectCard);
+
+
+    // Delete project
+    const deleteButton = projectCard.querySelector(".delete-project");
+
+    deleteButton.addEventListener("click", function () {
+
+        projectCard.remove();
+
+        projects = projects.filter(function (item) {
+            return item !== project;
+        });
+
+        localStorage.setItem(
+            "projects",
+            JSON.stringify(projects)
+        );
+
+    });
+
+}
