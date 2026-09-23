@@ -358,7 +358,6 @@ addTaskButton.addEventListener("click", function () {
     }
 
 });
-
 // ===============================
 // PROJECT DATA
 // ===============================
@@ -385,16 +384,81 @@ function createProject(project) {
 
             <h3>${project.name}</h3>
 
-            <p>${project.description}</p>
+            <p>${project.description || "New project"}</p>
 
             <div class="tags">
-                <span>${project.technology}</span>
+                <span>${project.technology || "JavaScript"}</span>
+            </div>
+
+            <div class="project-actions">
+
+                <button class="edit-project">✏️ Edit</button>
+
+                <button class="delete-project">🗑️ Delete</button>
+
             </div>
 
         </div>
     `;
 
     projectsGrid.appendChild(projectCard);
+
+
+    // ===============================
+    // DELETE PROJECT
+    // ===============================
+
+    const deleteButton =
+        projectCard.querySelector(".delete-project");
+
+    deleteButton.addEventListener("click", function () {
+
+        projectCard.remove();
+
+        projects = projects.filter(function (item) {
+
+            return item !== project;
+
+        });
+
+        localStorage.setItem(
+            "projects",
+            JSON.stringify(projects)
+        );
+
+    });
+
+
+    // ===============================
+    // EDIT PROJECT
+    // ===============================
+
+    const editButton =
+        projectCard.querySelector(".edit-project");
+
+    editButton.addEventListener("click", function () {
+
+        const newName = prompt(
+            "Enter new project name:",
+            project.name
+        );
+
+        if (newName) {
+
+            project.name = newName;
+
+            localStorage.setItem(
+                "projects",
+                JSON.stringify(projects)
+            );
+
+            projectCard.querySelector("h3").textContent =
+                project.name;
+
+        }
+
+    });
+
 }
 
 
@@ -419,17 +483,21 @@ addProjectButton.addEventListener("click", function () {
 
     if (projectName) {
 
-        const projectDescription = prompt("Enter project description:");
+        const projectDescription =
+            prompt("Enter project description:");
 
-        const projectTechnology = prompt("Enter technology used:");
+        const projectTechnology =
+            prompt("Enter technology used:");
 
         const newProject = {
 
             name: projectName,
 
-            description: projectDescription || "New project",
+            description:
+                projectDescription || "New project",
 
-            technology: projectTechnology || "JavaScript"
+            technology:
+                projectTechnology || "JavaScript"
 
         };
 
@@ -448,48 +516,3 @@ addProjectButton.addEventListener("click", function () {
     }
 
 });
-function createProject(project) {
-
-    const projectCard = document.createElement("div");
-
-    projectCard.classList.add("project-card");
-
-    projectCard.innerHTML = `
-        <div class="project-icon">💻</div>
-
-        <div class="project-info">
-
-            <h3>${project.name}</h3>
-
-            <p>${project.description}</p>
-
-            <div class="tags">
-                <span>${project.technology}</span>
-            </div>
-
-            <button class="delete-project">🗑️ Delete</button>
-
-        </div>
-    `;
-
-    projectsGrid.appendChild(projectCard);
-
-    // Delete project
-    const deleteButton = projectCard.querySelector(".delete-project");
-
-    deleteButton.addEventListener("click", function () {
-
-        projectCard.remove();
-
-        projects = projects.filter(function (item) {
-            return item !== project;
-        });
-
-        localStorage.setItem(
-            "projects",
-            JSON.stringify(projects)
-        );
-
-    });
-
-}
