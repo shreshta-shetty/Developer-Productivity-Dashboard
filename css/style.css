@@ -737,3 +737,16 @@ body {
     cursor: pointer;
     font-size: 13px;
 }
+.add-project-btn{
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.edit-project{
+    padding: 8px 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: white;
+}
