@@ -16,28 +16,29 @@ themeButton.addEventListener("click", function () {
 
 
 // ===============================
-// TASK ELEMENTS
-// ===============================
-
-const addTaskButton = document.querySelector(".add-task-btn");
-
-const taskList = document.querySelector("#tasks .task-list");
-
-const todayTaskList = document.querySelector(".tasks-card .task-list");
-
-
-// ===============================
-// PROJECT ELEMENT
-// ===============================
-
-const addProjectButton = document.querySelector(".add-project-btn");
-
-
-// ===============================
 // TASK DATA
 // ===============================
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+const addTaskButton =document.querySelector(".add-task-btn");
+
+const taskList =document.querySelector("#tasks .task-list");
+
+const todayTaskList =document.querySelector(".tasks-card .task-list");
+
+let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
+
+
+// ===============================
+// TASK COUNT
+// ===============================
+
+const taskCount = document.querySelector("#task-count");
+
+function updateTaskCount() {
+
+    taskCount.textContent = tasks.length;
+
+}
 
 
 // ===============================
@@ -48,11 +49,11 @@ function getTodayDate() {
 
     const today = new Date();
 
-    const year = today.getFullYear();
+    const year =today.getFullYear();
 
-    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const month =String(today.getMonth() + 1).padStart(2, "0");
 
-    const day = String(today.getDate()).padStart(2, "0");
+    const day =String(today.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
@@ -64,37 +65,35 @@ function getTodayDate() {
 
 function formatTaskDate(taskDate) {
 
-    if (!taskDate) {
-        return "";
-    }
+    if (!taskDate) return "";
 
     const today = new Date();
 
-    const date = new Date(taskDate + "T00:00:00");
+    const date =new Date(taskDate + "T00:00:00");
 
-    const todayString = today.toISOString().split("T")[0];
+    const todayString =today.toISOString().split("T")[0];
 
-    const tomorrow = new Date(today);
+    const tomorrow =new Date(today);
 
-    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setDate(today.getDate() + 1 );
 
-    const tomorrowString = tomorrow.toISOString().split("T")[0];
-
+    const tomorrowString =tomorrow.toISOString().split("T")[0];
 
     if (taskDate === todayString) {
         return "Today";
     }
 
-
     if (taskDate === tomorrowString) {
         return "Tomorrow";
     }
 
-
-    return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric"
-    });
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "short",
+            day: "numeric"
+        }
+    );
 
 }
 
@@ -105,106 +104,116 @@ function formatTaskDate(taskDate) {
 
 function createTask(task) {
 
-    const taskElement = document.createElement("div");
+    const taskElement =document.createElement("div");
 
     taskElement.classList.add("task");
 
-
-    const check = document.createElement("span");
-
-    check.classList.add("task-check");
-
-
-    const text = document.createElement("span");
-
-    text.textContent = task.name;
-
-
-    const date = document.createElement("span");
-
-    date.classList.add("task-date");
-
-    date.textContent = formatTaskDate(task.date);
-
-
-    const deleteButton = document.createElement("button");
-
-    deleteButton.textContent = "🗑️";
-
-    deleteButton.classList.add("delete-task");
-
-
-    taskElement.appendChild(check);
-
-    taskElement.appendChild(text);
-
-    taskElement.appendChild(date);
-
-    taskElement.appendChild(deleteButton);
-
-
-    taskList.appendChild(taskElement);
-
-
-    // Complete / uncomplete task
-    check.addEventListener("click", function () {
-
-        if (taskElement.classList.contains("completed")) {
-
-            check.textContent = "";
-
-            taskElement.classList.remove("completed");
-
-            task.completed = false;
-
-        } else {
-
-            check.textContent = "✓";
-
-            taskElement.classList.add("completed");
-
-            task.completed = true;
-
-        }
-
-
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-
-
-        renderTodayTasks();
-
-    });
-
-
-    // Show completed status
     if (task.completed) {
-
-        check.textContent = "✓";
-
         taskElement.classList.add("completed");
-
     }
 
+    taskElement.innerHTML = `
 
-    // Delete task
-    deleteButton.addEventListener("click", function () {
+        <div class="task-check">
+            ${task.completed ? "✓" : ""}
+        </div>
 
-        taskElement.remove();
+        <span>${task.name}</span>
+
+        <span class="task-date">
+            ${formatTaskDate(task.date)}
+        </span>
+
+        <button class="delete-task">
+            🗑️
+        </button>
+
+    `;
 
 
-        tasks = tasks.filter(function (item) {
+    // ===============================
+    // COMPLETE TASK
+    // ===============================
 
-            return item !== task;
+    const checkButton =taskElement.querySelector(".task-check");
 
-        });
+    checkButton.addEventListener(
+        "click",
+        function () {
+
+            task.completed =
+                !task.completed;
+
+            localStorage.setItem(
+                "tasks",
+                JSON.stringify(tasks)
+            );
+
+            renderTasks();
+
+        }
+    );
 
 
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+    // ===============================
+    // DELETE TASK
+    // ===============================
+
+    const deleteButton =
+        taskElement.querySelector(".delete-task");
+
+    deleteButton.addEventListener(
+        "click",
+        function () {
+
+            tasks =
+                tasks.filter(function (item) {
+
+                    return item !== task;
+
+                });
 
 
-        renderTodayTasks();
+            localStorage.setItem(
+                "tasks",
+                JSON.stringify(tasks)
+            );
+
+
+            renderTasks();
+
+            // DAY 13
+            updateTaskCount();
+
+        }
+    );
+
+
+    return taskElement;
+
+}
+
+
+// ===============================
+// RENDER ALL TASKS
+// ===============================
+
+function renderTasks() {
+
+    taskList.innerHTML = "";
+
+    tasks.forEach(function (task) {
+
+        const taskElement =
+            createTask(task);
+
+        taskList.appendChild(
+            taskElement
+        );
 
     });
+
+    renderTodayTasks();
 
 }
 
@@ -217,88 +226,25 @@ function renderTodayTasks() {
 
     todayTaskList.innerHTML = "";
 
+    const today =
+        getTodayDate();
 
-    const today = getTodayDate();
+    const todayTasks =
+        tasks.filter(function (task) {
 
+            return task.date === today;
 
-    const todayTasks = tasks.filter(function (task) {
-
-        return task.date === today;
-
-    });
+        });
 
 
     todayTasks.forEach(function (task) {
 
-        const taskElement = document.createElement("div");
+        const taskElement =
+            createTask(task);
 
-        taskElement.classList.add("task");
-
-
-        const check = document.createElement("span");
-
-        check.classList.add("task-check");
-
-
-        const text = document.createElement("span");
-
-        text.textContent = task.name;
-
-
-        taskElement.appendChild(check);
-
-        taskElement.appendChild(text);
-
-
-        todayTaskList.appendChild(taskElement);
-
-
-        // Show completed status
-        if (task.completed) {
-
-            check.textContent = "✓";
-
-            taskElement.classList.add("completed");
-
-        }
-
-
-        // Complete / uncomplete
-        check.addEventListener("click", function () {
-
-            if (taskElement.classList.contains("completed")) {
-
-                check.textContent = "";
-
-                taskElement.classList.remove("completed");
-
-                task.completed = false;
-
-            } else {
-
-                check.textContent = "✓";
-
-                taskElement.classList.add("completed");
-
-                task.completed = true;
-
-            }
-
-
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-
-
-            // Refresh main task list
-            taskList.innerHTML = "";
-
-
-            tasks.forEach(function (task) {
-
-                createTask(task);
-
-            });
-
-        });
+        todayTaskList.appendChild(
+            taskElement
+        );
 
     });
 
@@ -306,31 +252,22 @@ function renderTodayTasks() {
 
 
 // ===============================
-// LOAD SAVED TASKS
-// ===============================
-
-tasks.forEach(function (task) {
-
-    createTask(task);
-
-});
-
-
-renderTodayTasks();
-
-
-// ===============================
 // ADD TASK
 // ===============================
 
-addTaskButton.addEventListener("click", function () {
+addTaskButton.addEventListener(
+    "click",
+    function () {
 
-    const taskName = prompt("Enter your task:");
+        const taskName =
+            prompt("Enter task name:");
 
+        if (!taskName) {
+            return;
+        }
 
-    if (taskName) {
-
-        const taskDate = prompt("Enter due date (YYYY-MM-DD):");
+        const taskDate =
+            prompt("Enter due date (YYYY-MM-DD):");
 
 
         const newTask = {
@@ -339,7 +276,8 @@ addTaskButton.addEventListener("click", function () {
 
             completed: false,
 
-            date: taskDate
+            date:
+                taskDate || getTodayDate()
 
         };
 
@@ -347,24 +285,50 @@ addTaskButton.addEventListener("click", function () {
         tasks.push(newTask);
 
 
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem(
+            "tasks",
+            JSON.stringify(tasks)
+        );
 
 
-        createTask(newTask);
-
-
-        renderTodayTasks();
+        renderTasks();
+        updateTaskCount();
 
     }
+);
 
-});
+
+// ===============================
+// INITIAL TASK LOAD
+// ===============================
+
+renderTasks();
+
+updateTaskCount();
+
+
 // ===============================
 // PROJECT DATA
 // ===============================
 
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
-const projectsGrid = document.querySelector(".projects-grid");
+const projectsGrid =document.querySelector(".projects-grid");
+
+const addProjectButton = document.querySelector(".add-project-btn");
+
+
+// ===============================
+// PROJECT COUNT
+// ===============================
+
+const projectCount = document.querySelector("#project-count");
+
+function updateProjectCount() {
+
+    projectCount.textContent = projects.length;
+
+}
 
 
 // ===============================
@@ -373,35 +337,55 @@ const projectsGrid = document.querySelector(".projects-grid");
 
 function createProject(project) {
 
-    const projectCard = document.createElement("div");
+    const projectCard =  document.createElement("div");
 
-    projectCard.classList.add("project-card");
+    projectCard.classList.add(
+        "project-card"
+    );
+
 
     projectCard.innerHTML = `
-        <div class="project-icon">💻</div>
+
+        <div class="project-icon">
+            💻
+        </div>
 
         <div class="project-info">
 
-            <h3>${project.name}</h3>
+            <h3>
+                ${project.name}
+            </h3>
 
-            <p>${project.description || "New project"}</p>
+            <p>
+                ${project.description || "New project"}
+            </p>
 
             <div class="tags">
-                <span>${project.technology || "JavaScript"}</span>
+
+                <span>
+                    ${project.technology || "JavaScript"}
+                </span>
+
             </div>
 
             <div class="project-actions">
 
-                <button class="edit-project">✏️ Edit</button>
+                <button class="edit-project">
+                    ✏️ Edit
+                </button>
 
-                <button class="delete-project">🗑️ Delete</button>
+                <button class="delete-project">
+                    🗑️ Delete
+                </button>
 
             </div>
 
         </div>
+
     `;
 
-    projectsGrid.appendChild(projectCard);
+
+    projectsGrid.appendChild(projectCard  );
 
 
     // ===============================
@@ -409,24 +393,35 @@ function createProject(project) {
     // ===============================
 
     const deleteButton =
-        projectCard.querySelector(".delete-project");
-
-    deleteButton.addEventListener("click", function () {
-
-        projectCard.remove();
-
-        projects = projects.filter(function (item) {
-
-            return item !== project;
-
-        });
-
-        localStorage.setItem(
-            "projects",
-            JSON.stringify(projects)
+        projectCard.querySelector(
+            ".delete-project"
         );
 
-    });
+    deleteButton.addEventListener(
+        "click",
+        function () {
+
+            projectCard.remove();
+
+            projects =
+                projects.filter(
+                    function (item) {
+
+                        return item !== project;
+
+                    }
+                );
+
+
+            localStorage.setItem(
+                "projects",
+                JSON.stringify(projects)
+            );
+
+            updateProjectCount();
+
+        }
+    );
 
 
     // ===============================
@@ -434,30 +429,42 @@ function createProject(project) {
     // ===============================
 
     const editButton =
-        projectCard.querySelector(".edit-project");
-
-    editButton.addEventListener("click", function () {
-
-        const newName = prompt(
-            "Enter new project name:",
-            project.name
+        projectCard.querySelector(
+            ".edit-project"
         );
 
-        if (newName) {
+    editButton.addEventListener(
+        "click",
+        function () {
 
-            project.name = newName;
+            const newName =
+                prompt(
+                    "Enter new project name:",
+                    project.name
+                );
 
-            localStorage.setItem(
-                "projects",
-                JSON.stringify(projects)
-            );
 
-            projectCard.querySelector("h3").textContent =
-                project.name;
+            if (newName) {
+
+                project.name =
+                    newName;
+
+
+                localStorage.setItem(
+                    "projects",
+                    JSON.stringify(projects)
+                );
+
+
+                projectCard.querySelector(
+                    "h3"
+                ).textContent =
+                    project.name;
+
+            }
 
         }
-
-    });
+    );
 
 }
 
@@ -466,53 +473,83 @@ function createProject(project) {
 // LOAD SAVED PROJECTS
 // ===============================
 
-projects.forEach(function (project) {
+projects.forEach(
+    function (project) {
 
-    createProject(project);
+        createProject(project);
 
-});
+    }
+);
+
+
+// ===============================
+// INITIAL PROJECT COUNT
+// ===============================
+
+updateProjectCount();
 
 
 // ===============================
 // ADD PROJECT
 // ===============================
 
-addProjectButton.addEventListener("click", function () {
+addProjectButton.addEventListener(
+    "click",
+    function () {
 
-    const projectName = prompt("Enter project name:");
-
-    if (projectName) {
-
-        const projectDescription =
-            prompt("Enter project description:");
-
-        const projectTechnology =
-            prompt("Enter technology used:");
-
-        const newProject = {
-
-            name: projectName,
-
-            description:
-                projectDescription || "New project",
-
-            technology:
-                projectTechnology || "JavaScript"
-
-        };
+        const projectName =
+            prompt(
+                "Enter project name:"
+            );
 
 
-        projects.push(newProject);
+        if (projectName) {
+
+            const projectDescription =
+                prompt(
+                    "Enter project description:"
+                );
 
 
-        localStorage.setItem(
-            "projects",
-            JSON.stringify(projects)
-        );
+            const projectTechnology =
+                prompt(
+                    "Enter technology used:"
+                );
 
 
-        createProject(newProject);
+            const newProject = {
+
+                name: projectName,
+
+                description:
+                    projectDescription ||
+                    "New project",
+
+                technology:
+                    projectTechnology ||
+                    "JavaScript"
+
+            };
+
+
+            projects.push(
+                newProject
+            );
+
+
+            localStorage.setItem(
+                "projects",
+                JSON.stringify(projects)
+            );
+
+
+            createProject(
+                newProject
+            );
+
+            updateProjectCount();
+
+        }
 
     }
-
-});
+);
