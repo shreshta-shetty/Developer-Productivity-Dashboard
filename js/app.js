@@ -1,7 +1,7 @@
 
- // ===============================
- // THEME BUTTON
- // ===============================
+// ===============================
+// THEME BUTTON
+// ===============================
 
 const themeButton = document.querySelector(".theme-btn");
 
@@ -85,57 +85,62 @@ function formatTaskDate(taskDate) {
 // ===============================
 
 function updateWeeklyActivity() {
-    const activityContainer = document.querySelector(".activity-placeholder");
+    const activityContainer =
+        document.querySelector(".activity-placeholder");
 
     if (!activityContainer) return;
 
     const bars = activityContainer.querySelectorAll(".bar");
+    const labels = activityContainer.querySelectorAll(".activity-day span");
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const activity = [];
-
-    // Get task completion counts for the last 7 days
+    // Display the last 7 days
     for (let i = 6; i >= 0; i--) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
 
         const dateString = getDateString(date);
+        const index = 6 - i;
 
-        const count = tasks.filter(function (task) {
-            return task.completedDate === dateString;
+        // All tasks due on this date
+        const dayTasks = tasks.filter(function (task) {
+            return task.date === dateString;
+        });
+
+        // Tasks completed out of the total
+        const completedTasks = dayTasks.filter(function (task) {
+            return task.completed;
         }).length;
 
-        activity.push({
-            date: dateString,
-            count: count,
-            label: date.toLocaleDateString("en-US", {
-                weekday: "short"
-            })
-        });
+        const totalTasks = dayTasks.length;
+
+        // Calculate completion percentage
+        const percentage = totalTasks === 0
+            ? 0
+            : (completedTasks / totalTasks) * 100;
+
+        // Convert percentage into bar height
+        const height = (percentage / 100) * 120;
+
+        const bar = bars[index];
+
+        if (bar) {
+            bar.style.height = `${height}px`;
+
+            bar.title =
+                `${completedTasks}/${totalTasks} tasks completed (${Math.round(percentage)}%)`;
+        }
+
+        // Update weekday labels automatically
+        if (labels[index]) {
+            labels[index].textContent =
+                date.toLocaleDateString("en-US", {
+                    weekday: "short"
+                });
+        }
     }
-
-    const maxCount = Math.max(
-        ...activity.map(function (day) {
-            return day.count;
-        }),
-        1
-    );
-
-    bars.forEach(function (bar, index) {
-        const day = activity[index];
-
-        if (!day) return;
-
-        // Scale bar heights between 10px and 120px
-        const height = day.count === 0
-            ? 10
-            : Math.max(10, (day.count / maxCount) * 120);
-
-        bar.style.height = `${height}px`;
-        bar.title = `${day.label}: ${day.count} completed task(s)`;
-    });
 }
 
 
@@ -157,7 +162,7 @@ function createTask(task) {
             ${task.completed ? "✓" : ""}
         </div>
 
-        <span></span>
+        <span class="task-name"></span>
 
         <span class="task-date">
             ${formatTaskDate(task.date)}
@@ -166,7 +171,7 @@ function createTask(task) {
         <button class="delete-task">🗑️</button>
     `;
 
-    taskElement.querySelector("span").textContent = task.name;
+    taskElement.querySelector(".task-name").textContent = task.name;
 
     // ===============================
     // COMPLETE TASK
@@ -331,6 +336,7 @@ function createProject(project) {
     `;
 
     projectCard.querySelector("h3").textContent = project.name;
+
     projectCard.querySelector("p").textContent =
         project.description || "New project";
 
