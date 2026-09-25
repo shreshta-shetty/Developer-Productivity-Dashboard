@@ -1,17 +1,16 @@
-// ===============================
-// THEME BUTTON
-// ===============================
+
+ // ===============================
+ // THEME BUTTON
+ // ===============================
 
 const themeButton = document.querySelector(".theme-btn");
 
 themeButton.addEventListener("click", function () {
-
     if (themeButton.textContent === "☾") {
         themeButton.textContent = "☀";
     } else {
         themeButton.textContent = "☾";
     }
-
 });
 
 
@@ -19,13 +18,11 @@ themeButton.addEventListener("click", function () {
 // TASK DATA
 // ===============================
 
-const addTaskButton =document.querySelector(".add-task-btn");
+const addTaskButton = document.querySelector(".add-task-btn");
+const taskList = document.querySelector("#tasks .task-list");
+const todayTaskList = document.querySelector(".tasks-card .task-list");
 
-const taskList =document.querySelector("#tasks .task-list");
-
-const todayTaskList =document.querySelector(".tasks-card .task-list");
-
-let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 
 // ===============================
@@ -35,66 +32,110 @@ let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
 const taskCount = document.querySelector("#task-count");
 
 function updateTaskCount() {
-
     taskCount.textContent = tasks.length;
-
 }
 
 
 // ===============================
-// GET TODAY'S DATE
+// DATE HELPERS
 // ===============================
 
 function getTodayDate() {
-
     const today = new Date();
 
-    const year =today.getFullYear();
-
-    const month =String(today.getMonth() + 1).padStart(2, "0");
-
-    const day =String(today.getDate()).padStart(2, "0");
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
 
+function getDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-// ===============================
-// FORMAT TASK DATE
-// ===============================
+    return `${year}-${month}-${day}`;
+}
 
 function formatTaskDate(taskDate) {
-
     if (!taskDate) return "";
 
+    const todayString = getTodayDate();
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowString = getDateString(tomorrow);
+
+    const date = new Date(taskDate + "T00:00:00");
+
+    if (taskDate === todayString) return "Today";
+    if (taskDate === tomorrowString) return "Tomorrow";
+
+    return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric"
+    });
+}
+
+
+// ===============================
+// DAY 14 - WEEKLY ACTIVITY
+// ===============================
+
+function updateWeeklyActivity() {
+    const activityContainer = document.querySelector(".activity-placeholder");
+
+    if (!activityContainer) return;
+
+    const bars = activityContainer.querySelectorAll(".bar");
+
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    const date =new Date(taskDate + "T00:00:00");
+    const activity = [];
 
-    const todayString =today.toISOString().split("T")[0];
+    // Get task completion counts for the last 7 days
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
 
-    const tomorrow =new Date(today);
+        const dateString = getDateString(date);
 
-    tomorrow.setDate(today.getDate() + 1 );
+        const count = tasks.filter(function (task) {
+            return task.completedDate === dateString;
+        }).length;
 
-    const tomorrowString =tomorrow.toISOString().split("T")[0];
-
-    if (taskDate === todayString) {
-        return "Today";
+        activity.push({
+            date: dateString,
+            count: count,
+            label: date.toLocaleDateString("en-US", {
+                weekday: "short"
+            })
+        });
     }
 
-    if (taskDate === tomorrowString) {
-        return "Tomorrow";
-    }
-
-    return date.toLocaleDateString(
-        "en-US",
-        {
-            month: "short",
-            day: "numeric"
-        }
+    const maxCount = Math.max(
+        ...activity.map(function (day) {
+            return day.count;
+        }),
+        1
     );
 
+    bars.forEach(function (bar, index) {
+        const day = activity[index];
+
+        if (!day) return;
+
+        // Scale bar heights between 10px and 120px
+        const height = day.count === 0
+            ? 10
+            : Math.max(10, (day.count / maxCount) * 120);
+
+        bar.style.height = `${height}px`;
+        bar.title = `${day.label}: ${day.count} completed task(s)`;
+    });
 }
 
 
@@ -103,8 +144,7 @@ function formatTaskDate(taskDate) {
 // ===============================
 
 function createTask(task) {
-
-    const taskElement =document.createElement("div");
+    const taskElement = document.createElement("div");
 
     taskElement.classList.add("task");
 
@@ -113,84 +153,62 @@ function createTask(task) {
     }
 
     taskElement.innerHTML = `
-
         <div class="task-check">
             ${task.completed ? "✓" : ""}
         </div>
 
-        <span>${task.name}</span>
+        <span></span>
 
         <span class="task-date">
             ${formatTaskDate(task.date)}
         </span>
 
-        <button class="delete-task">
-            🗑️
-        </button>
-
+        <button class="delete-task">🗑️</button>
     `;
 
+    taskElement.querySelector("span").textContent = task.name;
 
     // ===============================
     // COMPLETE TASK
     // ===============================
 
-    const checkButton =taskElement.querySelector(".task-check");
+    const checkButton = taskElement.querySelector(".task-check");
 
-    checkButton.addEventListener(
-        "click",
-        function () {
+    checkButton.addEventListener("click", function () {
+        task.completed = !task.completed;
 
-            task.completed =
-                !task.completed;
-
-            localStorage.setItem(
-                "tasks",
-                JSON.stringify(tasks)
-            );
-
-            renderTasks();
-
+        if (task.completed) {
+            task.completedDate = getTodayDate();
+        } else {
+            task.completedDate = null;
         }
-    );
 
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        renderTasks();
+        updateTaskCount();
+        updateWeeklyActivity();
+    });
 
     // ===============================
     // DELETE TASK
     // ===============================
 
-    const deleteButton =
-        taskElement.querySelector(".delete-task");
+    const deleteButton = taskElement.querySelector(".delete-task");
 
-    deleteButton.addEventListener(
-        "click",
-        function () {
+    deleteButton.addEventListener("click", function () {
+        tasks = tasks.filter(function (item) {
+            return item !== task;
+        });
 
-            tasks =
-                tasks.filter(function (item) {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
 
-                    return item !== task;
-
-                });
-
-
-            localStorage.setItem(
-                "tasks",
-                JSON.stringify(tasks)
-            );
-
-
-            renderTasks();
-
-            // DAY 13
-            updateTaskCount();
-
-        }
-    );
-
+        renderTasks();
+        updateTaskCount();
+        updateWeeklyActivity();
+    });
 
     return taskElement;
-
 }
 
 
@@ -199,22 +217,13 @@ function createTask(task) {
 // ===============================
 
 function renderTasks() {
-
     taskList.innerHTML = "";
 
     tasks.forEach(function (task) {
-
-        const taskElement =
-            createTask(task);
-
-        taskList.appendChild(
-            taskElement
-        );
-
+        taskList.appendChild(createTask(task));
     });
 
     renderTodayTasks();
-
 }
 
 
@@ -223,31 +232,17 @@ function renderTasks() {
 // ===============================
 
 function renderTodayTasks() {
-
     todayTaskList.innerHTML = "";
 
-    const today =
-        getTodayDate();
+    const today = getTodayDate();
 
-    const todayTasks =
-        tasks.filter(function (task) {
-
-            return task.date === today;
-
-        });
-
-
-    todayTasks.forEach(function (task) {
-
-        const taskElement =
-            createTask(task);
-
-        todayTaskList.appendChild(
-            taskElement
-        );
-
+    const todayTasks = tasks.filter(function (task) {
+        return task.date === today;
     });
 
+    todayTasks.forEach(function (task) {
+        todayTaskList.appendChild(createTask(task));
+    });
 }
 
 
@@ -255,47 +250,28 @@ function renderTodayTasks() {
 // ADD TASK
 // ===============================
 
-addTaskButton.addEventListener(
-    "click",
-    function () {
+addTaskButton.addEventListener("click", function () {
+    const taskName = prompt("Enter task name:");
 
-        const taskName =
-            prompt("Enter task name:");
+    if (!taskName || !taskName.trim()) return;
 
-        if (!taskName) {
-            return;
-        }
+    const taskDate = prompt("Enter due date (YYYY-MM-DD):");
 
-        const taskDate =
-            prompt("Enter due date (YYYY-MM-DD):");
+    const newTask = {
+        name: taskName.trim(),
+        completed: false,
+        date: taskDate || getTodayDate(),
+        completedDate: null
+    };
 
+    tasks.push(newTask);
 
-        const newTask = {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
-            name: taskName,
-
-            completed: false,
-
-            date:
-                taskDate || getTodayDate()
-
-        };
-
-
-        tasks.push(newTask);
-
-
-        localStorage.setItem(
-            "tasks",
-            JSON.stringify(tasks)
-        );
-
-
-        renderTasks();
-        updateTaskCount();
-
-    }
-);
+    renderTasks();
+    updateTaskCount();
+    updateWeeklyActivity();
+});
 
 
 // ===============================
@@ -303,8 +279,8 @@ addTaskButton.addEventListener(
 // ===============================
 
 renderTasks();
-
 updateTaskCount();
+updateWeeklyActivity();
 
 
 // ===============================
@@ -313,8 +289,7 @@ updateTaskCount();
 
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
-const projectsGrid =document.querySelector(".projects-grid");
-
+const projectsGrid = document.querySelector(".projects-grid");
 const addProjectButton = document.querySelector(".add-project-btn");
 
 
@@ -325,9 +300,7 @@ const addProjectButton = document.querySelector(".add-project-btn");
 const projectCount = document.querySelector("#project-count");
 
 function updateProjectCount() {
-
     projectCount.textContent = projects.length;
-
 }
 
 
@@ -336,136 +309,72 @@ function updateProjectCount() {
 // ===============================
 
 function createProject(project) {
-
-    const projectCard =  document.createElement("div");
-
-    projectCard.classList.add(
-        "project-card"
-    );
-
+    const projectCard = document.createElement("div");
+    projectCard.classList.add("project-card");
 
     projectCard.innerHTML = `
-
-        <div class="project-icon">
-            💻
-        </div>
+        <div class="project-icon">💻</div>
 
         <div class="project-info">
-
-            <h3>
-                ${project.name}
-            </h3>
-
-            <p>
-                ${project.description || "New project"}
-            </p>
+            <h3></h3>
+            <p></p>
 
             <div class="tags">
-
-                <span>
-                    ${project.technology || "JavaScript"}
-                </span>
-
+                <span></span>
             </div>
 
             <div class="project-actions">
-
-                <button class="edit-project">
-                    ✏️ Edit
-                </button>
-
-                <button class="delete-project">
-                    🗑️ Delete
-                </button>
-
+                <button class="edit-project">✏️ Edit</button>
+                <button class="delete-project">🗑️ Delete</button>
             </div>
-
         </div>
-
     `;
 
+    projectCard.querySelector("h3").textContent = project.name;
+    projectCard.querySelector("p").textContent =
+        project.description || "New project";
 
-    projectsGrid.appendChild(projectCard  );
+    projectCard.querySelector(".tags span").textContent =
+        project.technology || "JavaScript";
+
+    projectsGrid.appendChild(projectCard);
 
 
     // ===============================
     // DELETE PROJECT
     // ===============================
 
-    const deleteButton =
-        projectCard.querySelector(
-            ".delete-project"
-        );
+    const deleteButton = projectCard.querySelector(".delete-project");
 
-    deleteButton.addEventListener(
-        "click",
-        function () {
+    deleteButton.addEventListener("click", function () {
+        projects = projects.filter(function (item) {
+            return item !== project;
+        });
 
-            projectCard.remove();
+        localStorage.setItem("projects", JSON.stringify(projects));
 
-            projects =
-                projects.filter(
-                    function (item) {
-
-                        return item !== project;
-
-                    }
-                );
-
-
-            localStorage.setItem(
-                "projects",
-                JSON.stringify(projects)
-            );
-
-            updateProjectCount();
-
-        }
-    );
+        projectCard.remove();
+        updateProjectCount();
+    });
 
 
     // ===============================
     // EDIT PROJECT
     // ===============================
 
-    const editButton =
-        projectCard.querySelector(
-            ".edit-project"
-        );
+    const editButton = projectCard.querySelector(".edit-project");
 
-    editButton.addEventListener(
-        "click",
-        function () {
+    editButton.addEventListener("click", function () {
+        const newName = prompt("Enter new project name:", project.name);
 
-            const newName =
-                prompt(
-                    "Enter new project name:",
-                    project.name
-                );
+        if (newName && newName.trim()) {
+            project.name = newName.trim();
 
+            localStorage.setItem("projects", JSON.stringify(projects));
 
-            if (newName) {
-
-                project.name =
-                    newName;
-
-
-                localStorage.setItem(
-                    "projects",
-                    JSON.stringify(projects)
-                );
-
-
-                projectCard.querySelector(
-                    "h3"
-                ).textContent =
-                    project.name;
-
-            }
-
+            projectCard.querySelector("h3").textContent = project.name;
         }
-    );
-
+    });
 }
 
 
@@ -473,18 +382,9 @@ function createProject(project) {
 // LOAD SAVED PROJECTS
 // ===============================
 
-projects.forEach(
-    function (project) {
-
-        createProject(project);
-
-    }
-);
-
-
-// ===============================
-// INITIAL PROJECT COUNT
-// ===============================
+projects.forEach(function (project) {
+    createProject(project);
+});
 
 updateProjectCount();
 
@@ -493,63 +393,24 @@ updateProjectCount();
 // ADD PROJECT
 // ===============================
 
-addProjectButton.addEventListener(
-    "click",
-    function () {
+addProjectButton.addEventListener("click", function () {
+    const projectName = prompt("Enter project name:");
 
-        const projectName =
-            prompt(
-                "Enter project name:"
-            );
+    if (!projectName || !projectName.trim()) return;
 
+    const projectDescription = prompt("Enter project description:");
+    const projectTechnology = prompt("Enter technology used:");
 
-        if (projectName) {
+    const newProject = {
+        name: projectName.trim(),
+        description: projectDescription || "New project",
+        technology: projectTechnology || "JavaScript"
+    };
 
-            const projectDescription =
-                prompt(
-                    "Enter project description:"
-                );
+    projects.push(newProject);
 
+    localStorage.setItem("projects", JSON.stringify(projects));
 
-            const projectTechnology =
-                prompt(
-                    "Enter technology used:"
-                );
-
-
-            const newProject = {
-
-                name: projectName,
-
-                description:
-                    projectDescription ||
-                    "New project",
-
-                technology:
-                    projectTechnology ||
-                    "JavaScript"
-
-            };
-
-
-            projects.push(
-                newProject
-            );
-
-
-            localStorage.setItem(
-                "projects",
-                JSON.stringify(projects)
-            );
-
-
-            createProject(
-                newProject
-            );
-
-            updateProjectCount();
-
-        }
-
-    }
-);
+    createProject(newProject);
+    updateProjectCount();
+});
