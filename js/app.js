@@ -1,7 +1,7 @@
 
-// ===============================
-// THEME BUTTON
-// ===============================
+ // ===============================
+ // THEME BUTTON
+ // ===============================
 
 const themeButton = document.querySelector(".theme-btn");
 
@@ -33,6 +33,25 @@ const taskCount = document.querySelector("#task-count");
 
 function updateTaskCount() {
     taskCount.textContent = tasks.length;
+}
+
+
+// ===============================
+// DAY 15 - ANALYTICS
+// ===============================
+
+function updateAnalytics() {
+    const total = tasks.length;
+
+    const completed = tasks.filter(function (task) {
+        return task.completed;
+    }).length;
+
+    const pending = total - completed;
+
+    document.querySelector("#analytics-total").textContent = total;
+    document.querySelector("#analytics-completed").textContent = completed;
+    document.querySelector("#analytics-pending").textContent = pending;
 }
 
 
@@ -193,6 +212,7 @@ function createTask(task) {
         renderTasks();
         updateTaskCount();
         updateWeeklyActivity();
+        updateAnalytics();
     });
 
     // ===============================
@@ -211,6 +231,7 @@ function createTask(task) {
         renderTasks();
         updateTaskCount();
         updateWeeklyActivity();
+        updateAnalytics();
     });
 
     return taskElement;
@@ -276,6 +297,7 @@ addTaskButton.addEventListener("click", function () {
     renderTasks();
     updateTaskCount();
     updateWeeklyActivity();
+    updateAnalytics();
 });
 
 
@@ -286,6 +308,7 @@ addTaskButton.addEventListener("click", function () {
 renderTasks();
 updateTaskCount();
 updateWeeklyActivity();
+updateAnalytics();
 
 
 // ===============================
