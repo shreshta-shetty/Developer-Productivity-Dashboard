@@ -850,3 +850,89 @@ body {
         gap: 14px;
     }
 }
+/* DARK MODE */
+
+body.dark-mode {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark-mode .sidebar,
+body.dark-mode .topbar,
+body.dark-mode .stat-card,
+body.dark-mode .activity-card,
+body.dark-mode .tasks-card,
+body.dark-mode .project-card,
+body.dark-mode #tasks,
+body.dark-mode #analytics,
+body.dark-mode .analytics-card {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
+body.dark-mode .stat-card strong,
+body.dark-mode .analytics-card strong {
+    color: #f9fafb;
+}
+
+body.dark-mode .nav-item {
+    color: #d1d5db;
+}
+
+body.dark-mode .nav-item:hover,
+body.dark-mode .nav-item.active {
+    background: #374151;
+    color: #ffffff;
+}
+
+body.dark-mode .task {
+    background: #273449;
+    color: #f9fafb;
+}
+
+body.dark-mode .task-date,
+body.dark-mode .section-header p {
+    color: #9ca3af;
+}
+/* DAY 16 - FIX DARK MODE COLORS */
+
+body.dark-mode .projects-section,
+body.dark-mode .activity-placeholder,
+body.dark-mode .activity-bars {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+/* Project cards */
+body.dark-mode .project-card {
+    background: #273449;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+/* Project text */
+body.dark-mode .project-info h3,
+body.dark-mode .project-info p,
+body.dark-mode .projects-section h2,
+body.dark-mode .projects-section p {
+    color: #f9fafb;
+}
+
+/* Weekly activity labels */
+body.dark-mode .activity-day span {
+    color: #d1d5db;
+}
+
+/* Buttons */
+body.dark-mode .project-actions button,
+body.dark-mode .add-project-btn {
+    background: #374151;
+    color: #f9fafb;
+    border-color: #4b5563;
+}

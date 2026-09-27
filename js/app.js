@@ -1,15 +1,30 @@
 
- // ===============================
- // THEME BUTTON
- // ===============================
+// ===============================
+// DARK MODE
+// ===============================
 
 const themeButton = document.querySelector(".theme-btn");
 
+// Load saved theme
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+    themeButton.textContent = "☀";
+} else {
+    themeButton.textContent = "☾";
+}
+
+// Toggle theme
 themeButton.addEventListener("click", function () {
-    if (themeButton.textContent === "☾") {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
         themeButton.textContent = "☀";
+        localStorage.setItem("theme", "dark");
     } else {
         themeButton.textContent = "☾";
+        localStorage.setItem("theme", "light");
     }
 });
 
