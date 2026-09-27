@@ -52,7 +52,7 @@ function updateTaskCount() {
 
 
 // ===============================
-// DAY 15 - ANALYTICS
+//  ANALYTICS
 // ===============================
 
 function updateAnalytics() {
@@ -115,7 +115,7 @@ function formatTaskDate(taskDate) {
 
 
 // ===============================
-// DAY 14 - WEEKLY ACTIVITY
+// WEEKLY ACTIVITY
 // ===============================
 
 function updateWeeklyActivity() {
