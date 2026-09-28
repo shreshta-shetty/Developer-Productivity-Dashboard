@@ -1,7 +1,7 @@
 
-// ===============================
-// DARK MODE
-// ===============================
+ // ===============================
+ // DARK MODE
+ // ===============================
 
 const themeButton = document.querySelector(".theme-btn");
 
@@ -52,7 +52,7 @@ function updateTaskCount() {
 
 
 // ===============================
-//  ANALYTICS
+// ANALYTICS
 // ===============================
 
 function updateAnalytics() {
@@ -143,7 +143,7 @@ function updateWeeklyActivity() {
             return task.date === dateString;
         });
 
-        // Tasks completed out of the total
+        // Completed tasks
         const completedTasks = dayTasks.filter(function (task) {
             return task.completed;
         }).length;
@@ -167,7 +167,7 @@ function updateWeeklyActivity() {
                 `${completedTasks}/${totalTasks} tasks completed (${Math.round(percentage)}%)`;
         }
 
-        // Update weekday labels automatically
+        // Update weekday labels
         if (labels[index]) {
             labels[index].textContent =
                 date.toLocaleDateString("en-US", {
@@ -207,8 +207,9 @@ function createTask(task) {
 
     taskElement.querySelector(".task-name").textContent = task.name;
 
+
     // ===============================
-    // COMPLETE TASK
+    // COMPLETE / UNCOMPLETE TASK
     // ===============================
 
     const checkButton = taskElement.querySelector(".task-check");
@@ -228,7 +229,15 @@ function createTask(task) {
         updateTaskCount();
         updateWeeklyActivity();
         updateAnalytics();
+
+        // DAY 17: Show notification
+        if (task.completed) {
+            showToast("Task completed! 🎉");
+        } else {
+            showToast("Task marked as pending!");
+        }
     });
+
 
     // ===============================
     // DELETE TASK
@@ -247,6 +256,9 @@ function createTask(task) {
         updateTaskCount();
         updateWeeklyActivity();
         updateAnalytics();
+
+        // DAY 17: Show notification
+        showToast("Task deleted successfully! 🗑️");
     });
 
     return taskElement;
@@ -313,6 +325,9 @@ addTaskButton.addEventListener("click", function () {
     updateTaskCount();
     updateWeeklyActivity();
     updateAnalytics();
+
+    // DAY 17: Show notification
+    showToast("Task added successfully! ✅");
 });
 
 
@@ -458,3 +473,27 @@ addProjectButton.addEventListener("click", function () {
     createProject(newProject);
     updateProjectCount();
 });
+
+
+// ===============================
+//  TOAST NOTIFICATIONS
+// ===============================
+
+function showToast(message) {
+    const container = document.querySelector("#toast-container");
+
+    // Stop safely if the container is missing
+    if (!container) return;
+
+    const toast = document.createElement("div");
+
+    toast.classList.add("toast");
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    // Remove notification after 3 seconds
+    setTimeout(function () {
+        toast.remove();
+    }, 3000);
+}
