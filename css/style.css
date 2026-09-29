@@ -980,3 +980,34 @@ body.dark-mode .toast {
         transform: translateX(0);
     }
 }
+/* Settings Section */
+.settings-section {
+    background: var(--card-bg) !important;
+    padding: 24px 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+/* Appearance Card */
+.settings-card {
+    background: transparent;
+    padding: 0;
+    margin-top: 24px;
+}
+
+/* Theme Setting Row */
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+#settings-theme-btn {
+    min-width: 120px;
+    padding: 10px 16px;
+    white-space: nowrap;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

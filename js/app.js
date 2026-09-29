@@ -272,7 +272,16 @@ function createTask(task) {
 function renderTasks() {
     taskList.innerHTML = "";
 
-    tasks.forEach(function (task) {
+    const showCompletedCheckbox = document.querySelector("#show-completed-tasks");
+    const showCompleted = showCompletedCheckbox ? showCompletedCheckbox.checked : true;
+
+    const visibleTasks = showCompleted
+        ? tasks
+        : tasks.filter(function (task) {
+            return !task.completed;
+        });
+
+    visibleTasks.forEach(function (task) {
         taskList.appendChild(createTask(task));
     });
 
@@ -476,7 +485,7 @@ addProjectButton.addEventListener("click", function () {
 
 
 // ===============================
-//  TOAST NOTIFICATIONS
+// TOAST NOTIFICATIONS
 // ===============================
 
 function showToast(message) {
@@ -496,4 +505,65 @@ function showToast(message) {
     setTimeout(function () {
         toast.remove();
     }, 3000);
+}
+
+
+// ===============================
+// DAY 18 - SETTINGS
+// ===============================
+
+const settingsThemeBtn = document.querySelector("#settings-theme-btn");
+const mainThemeBtn = document.querySelector(".theme-btn");
+const showCompletedCheckbox = document.querySelector("#show-completed-tasks");
+const resetAppButton = document.querySelector("#reset-app-btn");
+
+// Load saved preference for completed tasks
+const savedShowCompleted = localStorage.getItem("showCompletedTasks");
+
+if (showCompletedCheckbox) {
+    showCompletedCheckbox.checked = savedShowCompleted !== "false";
+
+    showCompletedCheckbox.addEventListener("change", function () {
+        localStorage.setItem(
+            "showCompletedTasks",
+            showCompletedCheckbox.checked
+        );
+
+        renderTasks();
+    });
+}
+
+// Settings theme button uses the same main theme toggle
+if (settingsThemeBtn && mainThemeBtn) {
+    settingsThemeBtn.addEventListener("click", function () {
+        mainThemeBtn.click();
+    });
+}
+
+// Reset tasks and projects after confirmation
+if (resetAppButton) {
+    resetAppButton.addEventListener("click", function () {
+        const confirmed = confirm(
+            "Are you sure you want to reset all DevTrack data? This will delete all tasks and projects."
+        );
+
+        if (!confirmed) return;
+
+        tasks = [];
+        projects = [];
+
+        localStorage.removeItem("tasks");
+        localStorage.removeItem("projects");
+
+        taskList.innerHTML = "";
+        todayTaskList.innerHTML = "";
+        projectsGrid.innerHTML = "";
+
+        updateTaskCount();
+        updateProjectCount();
+        updateWeeklyActivity();
+        updateAnalytics();
+
+        showToast("All app data has been reset.");
+    });
 }

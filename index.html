@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,18 +24,16 @@
             </div>
 
             <nav class="navigation">
-
                 <a href="#dashboard" class="nav-item active">Dashboard</a>
                 <a href="#projects" class="nav-item">Projects</a>
                 <a href="#tasks" class="nav-item">Tasks</a>
                 <a href="#goals" class="nav-item">Goals</a>
                 <a href="#gitHub" class="nav-item">GitHub</a>
                 <a href="#analytics" class="nav-item">Analytics</a>
-
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="#" class="nav-item">Settings</a>
+                <a href="#settings" class="nav-item">Settings</a>
             </div>
 
         </aside>
@@ -43,7 +42,7 @@
         <!-- ================= MAIN CONTENT ================= -->
         <main class="main-content">
 
-            <!-- TOPBAR -->
+            <!-- ================= TOPBAR ================= -->
             <header class="topbar" id="dashboard">
 
                 <div class="welcome">
@@ -53,7 +52,7 @@
 
                 <div class="topbar-actions">
 
-                    <button class="theme-btn">☾</button>
+                    <button class="theme-btn" type="button">☾</button>
 
                     <div class="profile">
                         <div class="avatar">S</div>
@@ -89,63 +88,61 @@
             </section>
 
 
-            <!-- ================= CONTENT AREA ================= -->
+            <!-- ================= DASHBOARD GRID ================= -->
             <section class="dashboard-grid">
 
                 <!-- WEEKLY ACTIVITY -->
                 <div class="activity-card">
 
                     <div class="section-header">
-
                         <div>
                             <h2>Weekly Activity</h2>
                             <p>Your coding activity this week</p>
                         </div>
-
                     </div>
 
                     <div class="activity-placeholder">
 
-    <div class="activity-bars">
+                        <div class="activity-bars">
 
-        <div class="activity-day">
-            <div class="bar bar-1"></div>
-            <span>Mon</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-1"></div>
+                                <span>Mon</span>
+                            </div>
 
-        <div class="activity-day">
-            <div class="bar bar-2"></div>
-            <span>Tue</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-2"></div>
+                                <span>Tue</span>
+                            </div>
 
-        <div class="activity-day">
-            <div class="bar bar-3"></div>
-            <span>Wed</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-3"></div>
+                                <span>Wed</span>
+                            </div>
 
-        <div class="activity-day">
-            <div class="bar bar-4"></div>
-            <span>Thu</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-4"></div>
+                                <span>Thu</span>
+                            </div>
 
-        <div class="activity-day">
-            <div class="bar bar-5"></div>
-            <span>Fri</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-5"></div>
+                                <span>Fri</span>
+                            </div>
 
-        <div class="activity-day">
-            <div class="bar bar-6"></div>
-            <span>Sat</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-6"></div>
+                                <span>Sat</span>
+                            </div>
 
-        <div class="activity-day">
-            <div class="bar bar-7"></div>
-            <span>Sun</span>
-        </div>
+                            <div class="activity-day">
+                                <div class="bar bar-7"></div>
+                                <span>Sun</span>
+                            </div>
 
-    </div>
+                        </div>
 
-</div>
+                    </div>
 
                 </div>
 
@@ -154,12 +151,10 @@
                 <div class="tasks-card">
 
                     <div class="section-header">
-
                         <div>
                             <h2>Today's Tasks</h2>
                             <p>Stay focused on your goals</p>
                         </div>
-
                     </div>
 
                     <div class="task-list"></div>
@@ -179,14 +174,13 @@
                         <p>Projects you're currently working on</p>
                     </div>
 
-                    <button class="add-project-btn">+ Add Project</button>
+                    <button class="add-project-btn" type="button">
+                        + Add Project
+                    </button>
 
                 </div>
 
-
-                <div class="projects-grid">
-
-                </div>
+                <div class="projects-grid"></div>
 
             </section>
 
@@ -201,62 +195,144 @@
                         <p>Add and manage your tasks</p>
                     </div>
 
-                    <button class="add-task-btn">
+                    <button class="add-task-btn" type="button">
                         + Add Task
                     </button>
 
                 </div>
 
-                <!-- JavaScript will add new tasks here -->
                 <div class="task-list"></div>
 
             </section>
 
 
-            <!-- Future sections will be added here -->
-
+            <!-- ================= GOALS ================= -->
             <section id="goals"></section>
 
+
+            <!-- ================= GITHUB ================= -->
             <section id="gitHub"></section>
 
+
+            <!-- ================= ANALYTICS ================= -->
             <section id="analytics">
-    <div class="section-header">
-        <div>
-            <h2>Analytics</h2>
-            <p>Track your productivity at a glance</p>
-        </div>
-    </div>
 
-    <div class="analytics-grid">
-        <div class="analytics-card">
-            <h3>Total Tasks</h3>
-            <strong id="analytics-total">0</strong>
-        </div>
+                <div class="section-header">
+                    <div>
+                        <h2>Analytics</h2>
+                        <p>Track your productivity at a glance</p>
+                    </div>
+                </div>
 
-        <div class="analytics-card">
-            <h3>Completed</h3>
-            <strong id="analytics-completed">0</strong>
-        </div>
+                <div class="analytics-grid">
 
-        <div class="analytics-card">
-            <h3>Pending</h3>
-            <strong id="analytics-pending">0</strong>
-        </div>
-    </div>
-</section>
-<section id="settings" class="settings-section">
-    <h2>Settings</h2>
-    <p>Manage your DevTrack preferences.</p>
-</section>
+                    <div class="analytics-card">
+                        <h3>Total Tasks</h3>
+                        <strong id="analytics-total">0</strong>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>Completed</h3>
+                        <strong id="analytics-completed">0</strong>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>Pending</h3>
+                        <strong id="analytics-pending">0</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= SETTINGS ================= -->
+            <section id="settings" class="settings-section">
+
+                <h2>Settings</h2>
+                <p>Manage your DevTrack preferences.</p>
+
+
+                <!-- APPEARANCE SETTINGS -->
+                <div class="settings-card">
+
+                    <h3>Appearance</h3>
+
+                    <div class="setting-item">
+
+                        <div>
+                            <h4>Dark Mode</h4>
+                            <p>Switch between light and dark themes.</p>
+                        </div>
+
+                        <button
+                            class="theme-btn"
+                            id="settings-theme-btn"
+                            type="button">
+                            Toggle Theme
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TASK PREFERENCES -->
+                <div class="settings-card">
+
+                    <h3>Task Preferences</h3>
+
+                    <div class="setting-item">
+
+                        <div>
+                            <h4>Show Completed Tasks</h4>
+                            <p>Display completed tasks in your task list.</p>
+                        </div>
+
+                        <input
+                            type="checkbox"
+                            id="show-completed-tasks"
+                            checked>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESET APP DATA -->
+                <div class="settings-card">
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Reset app data</h3>
+                            <p>Delete all saved tasks and projects from this browser.</p>
+                        </div>
+
+                        <button
+                            id="reset-app-btn"
+                            class="reset-btn"
+                            type="button">
+                            Reset data
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
 
         </main>
 
     </div>
-    <!-- TOAST NOTIFICATIONS -->
+
+
+    <!-- ================= TOAST NOTIFICATIONS ================= -->
     <div id="toast-container"></div>
 
-    <!-- JavaScript -->
-    <script src="js/app.js"></script>
-</body>
 
+    <!-- ================= JAVASCRIPT ================= -->
+    <script src="js/app.js"></script>
+
+</body>
 </html>
