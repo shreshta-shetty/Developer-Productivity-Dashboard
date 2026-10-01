@@ -1152,3 +1152,69 @@ body.dark-mode #settings-theme-btn {
 body.dark-mode #settings-theme-btn:hover {
     background: #4b5563;
 }
+/* ===============================
+   TASK SEARCH & FILTER
+================================ */
+
+.task-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+#task-search {
+    flex: 1;
+    padding: 10px 14px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #111827;
+
+    font-size: 14px;
+    outline: none;
+}
+
+#task-search:focus {
+    border-color: #2563eb;
+}
+
+#task-filter {
+    padding: 10px 14px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #111827;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+/* DARK MODE */
+
+body.dark-mode #task-search,
+body.dark-mode #task-filter {
+    background: #273449;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .task-controls {
+        flex-direction: column;
+    }
+
+    #task-search,
+    #task-filter {
+        width: 100%;
+    }
+
+}
