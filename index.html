@@ -188,22 +188,39 @@
             <!-- ================= TASKS ================= -->
             <section id="tasks">
 
-                <div class="section-header">
+    <div class="section-header">
 
-                    <div>
-                        <h2>Tasks</h2>
-                        <p>Add and manage your tasks</p>
-                    </div>
+        <div>
+            <h2>Tasks</h2>
+            <p>Add and manage your tasks</p>
+        </div>
 
-                    <button class="add-task-btn" type="button">
-                        + Add Task
-                    </button>
+        <button class="add-task-btn" type="button">
+            + Add Task
+        </button>
 
-                </div>
+    </div>
 
-                <div class="task-list"></div>
+    <!-- Task Search & Filter -->
+    <div class="task-controls">
 
-            </section>
+        <input
+            type="text"
+            id="task-search"
+            placeholder="🔎 Search tasks..."
+        >
+
+        <select id="task-filter">
+            <option value="all">All Tasks</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+        </select>
+
+    </div>
+
+    <div class="task-list"></div>
+
+</section>
 
 
             <!-- ================= GOALS ================= -->
