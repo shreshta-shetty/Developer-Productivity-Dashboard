@@ -244,7 +244,6 @@ function createTask(task) {
         task.name;
 
 
-
     // ===============================
     // COMPLETE / UNCOMPLETE TASK
     // ===============================
@@ -296,9 +295,8 @@ function createTask(task) {
     });
 
 
-
     // ===============================
-    // EDIT TASK 
+    // EDIT TASK
     // ===============================
 
     const editButton =
@@ -374,7 +372,6 @@ function createTask(task) {
     });
 
 
-
     // ===============================
     // DELETE TASK
     // ===============================
@@ -426,6 +423,36 @@ function renderTasks() {
     taskList.innerHTML = "";
 
 
+    // ===============================
+    // SEARCH
+    // ===============================
+
+    const searchInput =
+        document.querySelector("#task-search");
+
+    const searchText =
+        searchInput
+            ? searchInput.value.toLowerCase().trim()
+            : "";
+
+
+    // ===============================
+    // FILTER
+    // ===============================
+
+    const filterSelect =
+        document.querySelector("#task-filter");
+
+    const filter =
+        filterSelect
+            ? filterSelect.value
+            : "all";
+
+
+    // ===============================
+    // SETTINGS
+    // ===============================
+
     const showCompletedCheckbox =
         document.querySelector("#show-completed-tasks");
 
@@ -436,13 +463,62 @@ function renderTasks() {
             : true;
 
 
-    const visibleTasks =
-        showCompleted
-            ? tasks
-            : tasks.filter(function (task) {
+    // ===============================
+    // FILTER TASKS
+    // ===============================
+
+    let visibleTasks = tasks.filter(function (task) {
+
+        // Search
+        const matchesSearch =
+            task.name
+                .toLowerCase()
+                .includes(searchText);
+
+
+        // Status filter
+        let matchesFilter = true;
+
+
+        if (filter === "pending") {
+
+            matchesFilter = !task.completed;
+
+        }
+
+
+        if (filter === "completed") {
+
+            matchesFilter = task.completed;
+
+        }
+
+
+        return matchesSearch && matchesFilter;
+
+    });
+
+
+    // ===============================
+    // SETTINGS:
+    // HIDE COMPLETED TASKS
+    // ===============================
+
+    if (!showCompleted) {
+
+        visibleTasks =
+            visibleTasks.filter(function (task) {
+
                 return !task.completed;
+
             });
 
+    }
+
+
+    // ===============================
+    // DISPLAY TASKS
+    // ===============================
 
     visibleTasks.forEach(function (task) {
 
@@ -464,7 +540,6 @@ function renderTasks() {
 function renderTodayTasks() {
 
     todayTaskList.innerHTML = "";
-
 
     const today = getTodayDate();
 
@@ -517,6 +592,7 @@ addTaskButton.addEventListener("click", function () {
         date: taskDate || getTodayDate(),
 
         completedDate: null
+
     };
 
 
@@ -544,6 +620,42 @@ addTaskButton.addEventListener("click", function () {
     );
 
 });
+
+
+// ===============================
+// SEARCH EVENT
+// ===============================
+
+const taskSearch =
+    document.querySelector("#task-search");
+
+if (taskSearch) {
+
+    taskSearch.addEventListener("input", function () {
+
+        renderTasks();
+
+    });
+
+}
+
+
+// ===============================
+// FILTER EVENT
+// ===============================
+
+const taskFilter =
+    document.querySelector("#task-filter");
+
+if (taskFilter) {
+
+    taskFilter.addEventListener("change", function () {
+
+        renderTasks();
+
+    });
+
+}
 
 
 // ===============================
@@ -774,6 +886,7 @@ addProjectButton.addEventListener(
             !projectName ||
             !projectName.trim()
         ) {
+
             return;
         }
 
@@ -862,7 +975,7 @@ function showToast(message) {
 
 
 // ===============================
-//  SETTINGS
+// SETTINGS
 // ===============================
 
 const settingsThemeBtn =
