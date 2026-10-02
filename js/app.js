@@ -517,6 +517,66 @@ function renderTasks() {
 
 
     // ===============================
+    // SORT TASKS
+    // ===============================
+
+    const sortSelect =
+        document.querySelector("#task-sort");
+
+    const sort =
+        sortSelect
+            ? sortSelect.value
+            : "date";
+
+
+    // Sort by Due Date
+    if (sort === "date") {
+
+        visibleTasks.sort(function (a, b) {
+
+            const dateA =
+                a.date || "9999-12-31";
+
+            const dateB =
+                b.date || "9999-12-31";
+
+            return dateA.localeCompare(dateB);
+
+        });
+
+    }
+
+
+    // Sort by Name
+    if (sort === "name") {
+
+        visibleTasks.sort(function (a, b) {
+
+            return a.name
+                .toLowerCase()
+                .localeCompare(
+                    b.name.toLowerCase()
+                );
+
+        });
+
+    }
+
+
+    // Sort by Status
+    if (sort === "status") {
+
+        visibleTasks.sort(function (a, b) {
+
+            return Number(a.completed) -
+                Number(b.completed);
+
+        });
+
+    }
+
+
+    // ===============================
     // DISPLAY TASKS
     // ===============================
 
@@ -644,12 +704,29 @@ if (taskSearch) {
 // FILTER EVENT
 // ===============================
 
-const taskFilter =
-    document.querySelector("#task-filter");
+const taskFilter = document.querySelector("#task-filter");
 
 if (taskFilter) {
 
     taskFilter.addEventListener("change", function () {
+
+        renderTasks();
+
+    });
+
+}
+
+
+// ===============================
+// SORT EVENT
+// ===============================
+
+const taskSort =
+    document.querySelector("#task-sort");
+
+if (taskSort) {
+
+    taskSort.addEventListener("change", function () {
 
         renderTasks();
 
@@ -888,6 +965,7 @@ addProjectButton.addEventListener(
         ) {
 
             return;
+
         }
 
 
