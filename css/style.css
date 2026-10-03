@@ -1166,6 +1166,338 @@ body {
 
 
 /* =========================================
+   GITHUB ACTIVITY
+========================================= */
+
+#gitHub {
+    background: #ffffff;
+
+    padding: 24px;
+
+    margin-top: 24px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+
+/* =========================================
+   GITHUB PROFILE BUTTON
+========================================= */
+
+.github-profile-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+}
+
+.github-profile-btn:hover {
+    background: #374151;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   GITHUB STATS
+========================================= */
+
+.github-stats {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.github-stat-card {
+    padding: 18px;
+
+    background: #f9fafb;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.github-stat-card span {
+    font-size: 13px;
+
+    color: #6b7280;
+
+    font-weight: 500;
+}
+
+.github-stat-card strong {
+    font-size: 26px;
+
+    color: #111827;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   GITHUB ACTIVITY CARD
+========================================= */
+
+.github-activity-card {
+    padding: 22px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+}
+
+
+/* =========================================
+   GITHUB CARD HEADER
+========================================= */
+
+.github-card-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.github-card-header h3 {
+    margin: 0 0 4px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    color: #111827;
+}
+
+.github-card-header p {
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+.github-year {
+    font-size: 13px;
+
+    color: #6b7280;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   GITHUB CALENDAR
+========================================= */
+
+.github-calendar {
+    width: 100%;
+
+    overflow-x: auto;
+
+    padding-bottom: 4px;
+}
+
+
+/* =========================================
+   GITHUB MONTH LABELS
+========================================= */
+
+.github-months {
+    display: grid;
+
+    margin-left: 28px;
+
+    margin-bottom: 6px;
+
+    height: 18px;
+
+    column-gap: 5px;
+
+    width: calc(100% - 38px);
+}
+
+.github-months span {
+    font-size: 11px;
+
+    color: #6b7280;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   GITHUB CALENDAR BODY
+========================================= */
+
+.github-calendar-body {
+    display: flex;
+
+    gap: 4px;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   WEEKDAY LABELS
+========================================= */
+
+.github-weekdays {
+    width: 24px;
+
+    display: grid;
+
+    grid-template-rows: repeat(7, 18px);
+
+    gap: 5px;
+
+    flex-shrink: 0;
+}
+
+.github-weekdays span {
+    font-size: 10px;
+
+    color: #6b7280;
+
+    line-height: 16px;
+}
+
+
+/* =========================================
+   CONTRIBUTION GRID
+========================================= */
+
+.contribution-grid {
+    display: grid;
+
+    grid-auto-flow: column;
+
+    grid-template-rows: repeat(7, 18px);
+
+    grid-template-columns: repeat(53, 18px);
+
+    gap: 5px;
+
+    width: max-content;
+}
+
+.contribution-grid span {
+    width: 18px;
+    height: 18px;
+
+    min-width: 18px;
+
+    border-radius: 3px;
+
+    background: #ebedf0;
+
+    border: 1px solid rgba(0, 0, 0, 0.03);
+
+    transition: transform 0.15s ease;
+}
+
+.contribution-grid span:hover {
+    transform: scale(1.15);
+}
+
+
+/* =========================================
+   CONTRIBUTION LEVELS
+========================================= */
+
+.contribution-grid span.level-1 {
+    background: #bbf7d0;
+}
+
+.contribution-grid span.level-2 {
+    background: #4ade80;
+}
+
+.contribution-grid span.level-3 {
+    background: #16a34a;
+}
+
+
+/* =========================================
+   GITHUB LEGEND
+========================================= */
+
+.github-legend {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    margin-top: 14px;
+
+    font-size: 12px;
+
+    color: #6b7280;
+}
+
+.github-legend .legend-box {
+    width: 14px;
+
+    height: 14px;
+
+    border-radius: 3px;
+
+    background: #ebedf0;
+}
+
+.github-legend .legend-box.level-1 {
+    background: #bbf7d0;
+}
+
+.github-legend .legend-box.level-2 {
+    background: #4ade80;
+}
+
+.github-legend .legend-box.level-3 {
+    background: #16a34a;
+}
+
+
+/* =========================================
    DARK MODE
 ========================================= */
 
@@ -1398,6 +1730,111 @@ body.dark-mode #reset-app-btn {
 
 
 /* =========================================
+   DARK MODE - GITHUB
+========================================= */
+
+body.dark-mode #gitHub {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+
+/* PROFILE BUTTON */
+
+body.dark-mode .github-profile-btn {
+    background: #374151;
+
+    color: #f9fafb;
+}
+
+body.dark-mode .github-profile-btn:hover {
+    background: #4b5563;
+}
+
+
+/* STATS */
+
+body.dark-mode .github-stat-card {
+    background: #273449;
+
+    border-color: #374151;
+}
+
+body.dark-mode .github-stat-card span {
+    color: #9ca3af;
+}
+
+body.dark-mode .github-stat-card strong {
+    color: #f9fafb;
+}
+
+
+/* ACTIVITY CARD */
+
+body.dark-mode .github-activity-card {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+body.dark-mode .github-card-header h3 {
+    color: #f9fafb;
+}
+
+body.dark-mode .github-card-header p,
+body.dark-mode .github-year,
+body.dark-mode .github-months span,
+body.dark-mode .github-weekdays span,
+body.dark-mode .github-legend {
+    color: #9ca3af;
+}
+
+
+/* EMPTY CONTRIBUTION BOXES */
+
+body.dark-mode .contribution-grid span {
+    background: #374151;
+
+    border-color: #4b5563;
+}
+
+
+/* DARK CONTRIBUTION LEVELS */
+
+body.dark-mode .contribution-grid span.level-1 {
+    background: #166534;
+}
+
+body.dark-mode .contribution-grid span.level-2 {
+    background: #15803d;
+}
+
+body.dark-mode .contribution-grid span.level-3 {
+    background: #22c55e;
+}
+
+
+/* DARK LEGEND */
+
+body.dark-mode .github-legend .legend-box {
+    background: #374151;
+}
+
+body.dark-mode .github-legend .legend-box.level-1 {
+    background: #166534;
+}
+
+body.dark-mode .github-legend .legend-box.level-2 {
+    background: #15803d;
+}
+
+body.dark-mode .github-legend .legend-box.level-3 {
+    background: #22c55e;
+}
+
+
+/* =========================================
    RESPONSIVE DESIGN
 ========================================= */
 
@@ -1477,6 +1914,9 @@ body.dark-mode #reset-app-btn {
         gap: 10px;
     }
 
+
+    /* STATS */
+
     .stats {
         grid-template-columns: 1fr;
 
@@ -1487,15 +1927,24 @@ body.dark-mode #reset-app-btn {
         grid-column: auto;
     }
 
+
+    /* DASHBOARD */
+
     .dashboard-grid {
         grid-template-columns: 1fr;
 
         gap: 14px;
     }
 
+
+    /* PROJECTS */
+
     .projects-grid {
         grid-template-columns: 1fr;
     }
+
+
+    /* CARDS */
 
     .activity-card,
     .tasks-card,
@@ -1550,6 +1999,65 @@ body.dark-mode #reset-app-btn {
     #settings-theme-btn,
     .reset-btn {
         flex-shrink: 0;
+    }
+
+
+    /* =========================================
+       GITHUB MOBILE
+    ========================================= */
+
+    #gitHub {
+        padding: 18px;
+    }
+
+    #gitHub .section-header {
+        align-items: flex-start;
+
+        gap: 14px;
+    }
+
+    .github-stats {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .github-card-header {
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .github-profile-btn {
+        padding: 9px 12px;
+
+        font-size: 13px;
+    }
+
+    .github-activity-card {
+        padding: 16px;
+    }
+
+    .github-calendar {
+        overflow-x: auto;
+    }
+
+    .github-calendar-body {
+        width: max-content;
+    }
+
+    .contribution-grid {
+        width: max-content;
+
+        grid-template-columns: repeat(53, 16px);
+    }
+
+    .github-months {
+        width: max-content;
+    }
+
+    .github-legend {
+        justify-content: flex-start;
     }
 
 }

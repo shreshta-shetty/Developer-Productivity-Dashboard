@@ -1186,3 +1186,303 @@ if (resetAppButton) {
         }
     );
 }
+/* =========================================
+   GITHUB CONTRIBUTION CALENDAR
+========================================= */
+
+function generateGitHubContributions() {
+
+    const grid = document.querySelector("#contribution-grid");
+    const monthsContainer = document.querySelector("#github-months");
+    const yearElement = document.querySelector("#github-year");
+
+    if (!grid || !monthsContainer) {
+        return;
+    }
+
+
+    /* -----------------------------------------
+       YEAR
+    ----------------------------------------- */
+
+    const year = new Date().getFullYear();
+
+    yearElement.textContent = year;
+
+
+    /* -----------------------------------------
+       CLEAR OLD DATA
+    ----------------------------------------- */
+
+    grid.innerHTML = "";
+
+    monthsContainer.innerHTML = "";
+
+
+    /* -----------------------------------------
+       START OF YEAR
+    ----------------------------------------- */
+
+    const firstDay = new Date(year, 0, 1);
+
+    const lastDay = new Date(year, 11, 31);
+
+
+    /*
+        GitHub starts weeks on Sunday.
+
+        Move backwards to the Sunday
+        before January 1st.
+    */
+
+    const startDate = new Date(firstDay);
+
+    startDate.setDate(
+        firstDay.getDate() - firstDay.getDay()
+    );
+
+
+    /*
+        Move forward to the Saturday
+        after December 31st.
+    */
+
+    const endDate = new Date(lastDay);
+
+    endDate.setDate(
+        lastDay.getDate() +
+        (6 - lastDay.getDay())
+    );
+
+
+    /* -----------------------------------------
+       CALCULATE NUMBER OF WEEKS
+    ----------------------------------------- */
+
+    const totalDays =
+        Math.round(
+            (endDate - startDate) /
+            (1000 * 60 * 60 * 24)
+        ) + 1;
+
+    const totalWeeks =
+        Math.ceil(totalDays / 7);
+
+
+    /* -----------------------------------------
+       CSS GRID VARIABLES
+    ----------------------------------------- */
+
+    monthsContainer.style.gridTemplateColumns =
+        `repeat(${totalWeeks}, 18px)`;
+
+
+    /* -----------------------------------------
+       GENERATE CONTRIBUTIONS
+    ----------------------------------------- */
+
+    const currentDate = new Date(startDate);
+
+
+    for (let week = 0; week < totalWeeks; week++) {
+
+        for (let day = 0; day < 7; day++) {
+
+            const cell =
+                document.createElement("span");
+
+
+            /* -----------------------------------------
+               DATE
+            ----------------------------------------- */
+
+            const date =
+                new Date(currentDate);
+
+
+            const dateString =
+                date.toISOString().split("T")[0];
+
+
+            cell.dataset.date = dateString;
+
+
+            /* -----------------------------------------
+               CONTRIBUTION LEVEL
+            ----------------------------------------- */
+
+            let level = 0;
+
+
+            /*
+                Only generate activity
+                for dates inside the year.
+            */
+
+            if (date.getFullYear() === year) {
+
+                /*
+                    Deterministic pseudo activity.
+
+                    This is temporary frontend data.
+                    Later we can replace this with
+                    real GitHub API data.
+                */
+
+                const seed =
+                    date.getDate() *
+                    (date.getMonth() + 1) *
+                    (date.getDay() + 2);
+
+                if (seed % 17 === 0) {
+
+                    level = 3;
+
+                } else if (seed % 11 === 0) {
+
+                    level = 2;
+
+                } else if (seed % 5 === 0) {
+
+                    level = 1;
+
+                }
+
+            }
+
+
+            /* -----------------------------------------
+               APPLY LEVEL
+            ----------------------------------------- */
+
+            if (level > 0) {
+
+                cell.classList.add(
+                    `level-${level}`
+                );
+
+            }
+
+
+            /* -----------------------------------------
+               TOOLTIP
+            ----------------------------------------- */
+
+            cell.title =
+                `${date.toDateString()} — ` +
+                `${level} contribution level`;
+
+
+            /* -----------------------------------------
+               ADD CELL
+            ----------------------------------------- */
+
+            grid.appendChild(cell);
+
+
+            /* -----------------------------------------
+               NEXT DAY
+            ----------------------------------------- */
+
+            currentDate.setDate(
+                currentDate.getDate() + 1
+            );
+
+        }
+
+    }
+
+
+    /* -----------------------------------------
+       GENERATE MONTH LABELS
+    ----------------------------------------- */
+
+    const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ];
+
+
+    const monthPositions = {};
+
+
+    /*
+        Find the first week where
+        each month appears.
+    */
+
+    const calendarDate =
+        new Date(startDate);
+
+
+    for (let week = 0; week < totalWeeks; week++) {
+
+        for (let day = 0; day < 7; day++) {
+
+            const date =
+                new Date(calendarDate);
+
+
+            if (
+                date.getFullYear() === year &&
+                date.getDate() === 1
+            ) {
+
+                monthPositions[
+                    date.getMonth()
+                ] = week + 1;
+
+            }
+
+
+            calendarDate.setDate(
+                calendarDate.getDate() + 1
+            );
+
+        }
+
+    }
+
+
+    /* -----------------------------------------
+       CREATE MONTH LABELS
+    ----------------------------------------- */
+
+    Object.keys(monthPositions).forEach(
+        function (monthIndex) {
+
+            const label =
+                document.createElement("span");
+
+
+            label.textContent =
+                monthNames[monthIndex];
+
+
+            label.style.gridColumn =
+                monthPositions[monthIndex];
+
+
+            monthsContainer.appendChild(label);
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   START GITHUB CALENDAR
+========================================= */
+
+generateGitHubContributions();
