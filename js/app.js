@@ -1045,8 +1045,6 @@ if (resetAppButton) {
         }
     );
 }
-
-
 // =========================================
 // GITHUB CONTRIBUTION CALENDAR
 // =========================================
@@ -1056,24 +1054,25 @@ function generateGitHubContributions() {
     const grid =
         document.querySelector("#contribution-grid");
 
-    // NEW: contribution counter
-    let contributionCount = 0;
-
     const monthsContainer =
         document.querySelector("#github-months");
 
     const yearElement =
         document.querySelector("#github-year");
 
+    const contributionElement =
+        document.querySelector("#github-contributions");
 
+
+    // Stop if GitHub section does not exist
     if (!grid || !monthsContainer) {
         return;
     }
 
 
-    // -----------------------------------------
-    // YEAR
-    // -----------------------------------------
+    // =========================================
+    // GET SELECTED YEAR
+    // =========================================
 
     const year =
         yearElement
@@ -1081,18 +1080,24 @@ function generateGitHubContributions() {
             : new Date().getFullYear();
 
 
-    // -----------------------------------------
-    // CLEAR OLD DATA
-    // -----------------------------------------
+    // =========================================
+    // CLEAR OLD CALENDAR
+    // =========================================
 
     grid.innerHTML = "";
-
     monthsContainer.innerHTML = "";
 
 
-    // -----------------------------------------
-    // START OF YEAR
-    // -----------------------------------------
+    // =========================================
+    // CONTRIBUTION COUNT
+    // =========================================
+
+    let contributionCount = 0;
+
+
+    // =========================================
+    // CREATE CALENDAR DATES
+    // =========================================
 
     const firstDay =
         new Date(year, 0, 1);
@@ -1100,6 +1105,13 @@ function generateGitHubContributions() {
     const lastDay =
         new Date(year, 11, 31);
 
+
+    /*
+        GitHub calendars start on Sunday.
+
+        Move backwards from January 1st
+        to the Sunday before it.
+    */
 
     const startDate =
         new Date(firstDay);
@@ -1110,6 +1122,11 @@ function generateGitHubContributions() {
     );
 
 
+    /*
+        Move forward from December 31st
+        to the following Saturday.
+    */
+
     const endDate =
         new Date(lastDay);
 
@@ -1119,9 +1136,9 @@ function generateGitHubContributions() {
     );
 
 
-    // -----------------------------------------
-    // CALCULATE NUMBER OF WEEKS
-    // -----------------------------------------
+    // =========================================
+    // TOTAL NUMBER OF WEEKS
+    // =========================================
 
     const totalDays =
         Math.round(
@@ -1133,17 +1150,17 @@ function generateGitHubContributions() {
         Math.ceil(totalDays / 7);
 
 
-    // -----------------------------------------
-    // CSS GRID VARIABLES
-    // -----------------------------------------
+    // =========================================
+    // SET GRID COLUMNS
+    // =========================================
 
-    monthsContainer.style.gridTemplateColumns =
+    grid.style.gridTemplateColumns =
         `repeat(${totalWeeks}, 18px)`;
 
 
-    // -----------------------------------------
-    // GENERATE CONTRIBUTIONS
-    // -----------------------------------------
+    // =========================================
+    // GENERATE CONTRIBUTION CELLS
+    // =========================================
 
     const currentDate =
         new Date(startDate);
@@ -1161,33 +1178,63 @@ function generateGitHubContributions() {
             day++
         ) {
 
+            // -----------------------------------------
+            // CREATE CELL
+            // -----------------------------------------
+
             const cell =
                 document.createElement("span");
 
 
+            // -----------------------------------------
             // DATE
+            // -----------------------------------------
 
             const date =
                 new Date(currentDate);
 
+
             const dateString =
-                date.toISOString()
-                    .split("T")[0];
+                getDateString(date);
+
 
             cell.dataset.date =
                 dateString;
 
 
             // -----------------------------------------
-            // CONTRIBUTION LEVEL
+            // BASE CELL CLASS
+            // -----------------------------------------
+
+            cell.classList.add(
+                "contribution-cell"
+            );
+
+
+            // -----------------------------------------
+            // DEFAULT LEVEL
             // -----------------------------------------
 
             let level = 0;
 
 
+            // =========================================
+            // GENERATE ACTIVITY
+            // =========================================
+
             if (
                 date.getFullYear() === year
             ) {
+
+                /*
+                    Temporary activity generator.
+
+                    This gives the calendar
+                    realistic-looking activity.
+
+                    Later we can replace this
+                    with real GitHub API data.
+                */
 
                 const seed =
                     date.getDate() *
@@ -1212,38 +1259,87 @@ function generateGitHubContributions() {
             }
 
 
-            // -----------------------------------------
-            // APPLY LEVEL + COUNT CONTRIBUTION
-            // -----------------------------------------
+            // =========================================
+            // APPLY CONTRIBUTION LEVEL
+            // =========================================
 
-            if (level > 0) {
+            if (level === 1) {
 
                 cell.classList.add(
-                    `level-${level}`
+                    "level-1"
                 );
+
+            }
+
+            if (level === 2) {
+
+                cell.classList.add(
+                    "level-2"
+                );
+
+            }
+
+            if (level === 3) {
+
+                cell.classList.add(
+                    "level-3"
+                );
+
+            }
+
+
+            // =========================================
+            // UPDATE CONTRIBUTION COUNT
+            // =========================================
+
+            if (level > 0) {
 
                 contributionCount++;
 
             }
 
 
-            // -----------------------------------------
-            // TOOLTIP
-            // -----------------------------------------
+            // =========================================
+            // DAY 24 TOOLTIP
+            // =========================================
+
+            const contributionText = {
+
+                0: "No contributions",
+                1: "Low activity",
+                2: "Medium activity",
+                3: "High activity"
+
+            };
+
+
+            /*
+                Temporary contribution amount.
+
+                Level 1 = 3
+                Level 2 = 6
+                Level 3 = 9
+            */
+
+            const contributionAmount =
+                level * 3;
+
 
             cell.title =
-                `${date.toDateString()} — ` +
-                `${level} contribution level`;
+                `${contributionAmount} contributions · ` +
+                `${contributionText[level]}`;
 
 
-            // -----------------------------------------
-            // ADD CELL
-            // -----------------------------------------
+            // =========================================
+            // ADD CELL TO GRID
+            // =========================================
 
             grid.appendChild(cell);
 
 
-            // NEXT DAY
+            // =========================================
+            // MOVE TO NEXT DAY
+            // =========================================
 
             currentDate.setDate(
                 currentDate.getDate() + 1
@@ -1254,11 +1350,12 @@ function generateGitHubContributions() {
     }
 
 
-    // -----------------------------------------
-    // GENERATE MONTH LABELS
-    // -----------------------------------------
+    // =========================================
+    // MONTH NAMES
+    // =========================================
 
     const monthNames = [
+
         "Jan",
         "Feb",
         "Mar",
@@ -1271,10 +1368,16 @@ function generateGitHubContributions() {
         "Oct",
         "Nov",
         "Dec"
+
     ];
 
 
+    // =========================================
+    // FIND MONTH POSITIONS
+    // =========================================
+
     const monthPositions = {};
+
 
     const calendarDate =
         new Date(startDate);
@@ -1317,9 +1420,9 @@ function generateGitHubContributions() {
     }
 
 
-    // -----------------------------------------
+    // =========================================
     // CREATE MONTH LABELS
-    // -----------------------------------------
+    // =========================================
 
     Object.keys(monthPositions).forEach(
         function (monthIndex) {
@@ -1327,11 +1430,14 @@ function generateGitHubContributions() {
             const label =
                 document.createElement("span");
 
+
             label.textContent =
                 monthNames[monthIndex];
 
+
             label.style.gridColumn =
                 monthPositions[monthIndex];
+
 
             monthsContainer.appendChild(
                 label
@@ -1342,13 +1448,8 @@ function generateGitHubContributions() {
 
 
     // =========================================
-    // UPDATE CONTRIBUTION COUNT
+    // UPDATE CONTRIBUTION NUMBER
     // =========================================
-
-    const contributionElement =
-        document.querySelector(
-            "#github-contributions"
-        );
 
     if (contributionElement) {
 
@@ -1361,18 +1462,12 @@ function generateGitHubContributions() {
 
 
 // =========================================
-// START GITHUB CALENDAR
-// =========================================
-
-generateGitHubContributions();
-
-
-// =========================================
 // GITHUB YEAR SELECTOR
 // =========================================
 
 const githubYear =
     document.querySelector("#github-year");
+
 
 if (githubYear) {
 
@@ -1386,3 +1481,10 @@ if (githubYear) {
     );
 
 }
+
+
+// =========================================
+// INITIALIZE GITHUB CALENDAR
+// =========================================
+
+generateGitHubContributions();
