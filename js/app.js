@@ -145,7 +145,6 @@ function updateWeeklyActivity() {
 
     today.setHours(0, 0, 0, 0);
 
-    // Display the last 7 days
     for (let i = 6; i >= 0; i--) {
 
         const date = new Date(today);
@@ -156,32 +155,22 @@ function updateWeeklyActivity() {
 
         const index = 6 - i;
 
-
-        // All tasks due on this date
         const dayTasks = tasks.filter(function (task) {
             return task.date === dateString;
         });
 
-
-        // Completed tasks
         const completedTasks = dayTasks.filter(function (task) {
             return task.completed;
         }).length;
 
-
         const totalTasks = dayTasks.length;
 
-
-        // Calculate completion percentage
         const percentage =
             totalTasks === 0
                 ? 0
                 : (completedTasks / totalTasks) * 100;
 
-
-        // Convert percentage into bar height
         const height = (percentage / 100) * 120;
-
 
         const bar = bars[index];
 
@@ -193,8 +182,6 @@ function updateWeeklyActivity() {
                 `${completedTasks}/${totalTasks} tasks completed (${Math.round(percentage)}%)`;
         }
 
-
-        // Update weekday labels
         if (labels[index]) {
 
             labels[index].textContent =
@@ -216,11 +203,9 @@ function createTask(task) {
 
     taskElement.classList.add("task");
 
-
     if (task.completed) {
         taskElement.classList.add("completed");
     }
-
 
     taskElement.innerHTML = `
 
@@ -239,7 +224,6 @@ function createTask(task) {
         <button class="delete-task">🗑️</button>
     `;
 
-
     taskElement.querySelector(".task-name").textContent =
         task.name;
 
@@ -251,11 +235,9 @@ function createTask(task) {
     const checkButton =
         taskElement.querySelector(".task-check");
 
-
     checkButton.addEventListener("click", function () {
 
         task.completed = !task.completed;
-
 
         if (task.completed) {
 
@@ -266,12 +248,10 @@ function createTask(task) {
             task.completedDate = null;
         }
 
-
         localStorage.setItem(
             "tasks",
             JSON.stringify(tasks)
         );
-
 
         renderTasks();
 
@@ -281,8 +261,6 @@ function createTask(task) {
 
         updateAnalytics();
 
-
-        // Notification
         if (task.completed) {
 
             showToast("Task completed! 🎉");
@@ -302,24 +280,18 @@ function createTask(task) {
     const editButton =
         taskElement.querySelector(".edit-task");
 
-
     editButton.addEventListener("click", function () {
 
-        // Ask for new task name
         const newTaskName =
             prompt(
                 "Edit task name:",
                 task.name
             );
 
-
-        // If user cancels
         if (newTaskName === null) {
             return;
         }
 
-
-        // Don't allow empty task name
         if (!newTaskName.trim()) {
 
             showToast("Task name cannot be empty!");
@@ -327,36 +299,26 @@ function createTask(task) {
             return;
         }
 
-
-        // Ask for new due date
         const newTaskDate =
             prompt(
                 "Edit due date (YYYY-MM-DD):",
                 task.date
             );
 
-
-        // If user cancels date
         if (newTaskDate === null) {
             return;
         }
 
-
-        // Update task
         task.name = newTaskName.trim();
 
         task.date =
             newTaskDate || getTodayDate();
 
-
-        // Save updated task
         localStorage.setItem(
             "tasks",
             JSON.stringify(tasks)
         );
 
-
-        // Refresh task display
         renderTasks();
 
         updateTaskCount();
@@ -365,8 +327,6 @@ function createTask(task) {
 
         updateAnalytics();
 
-
-        // Notification
         showToast("Task updated successfully! ✏️");
 
     });
@@ -379,7 +339,6 @@ function createTask(task) {
     const deleteButton =
         taskElement.querySelector(".delete-task");
 
-
     deleteButton.addEventListener("click", function () {
 
         tasks = tasks.filter(function (item) {
@@ -388,12 +347,10 @@ function createTask(task) {
 
         });
 
-
         localStorage.setItem(
             "tasks",
             JSON.stringify(tasks)
         );
-
 
         renderTasks();
 
@@ -403,12 +360,9 @@ function createTask(task) {
 
         updateAnalytics();
 
-
-        // Notification
         showToast("Task deleted successfully! 🗑️");
 
     });
-
 
     return taskElement;
 }
@@ -422,11 +376,6 @@ function renderTasks() {
 
     taskList.innerHTML = "";
 
-
-    // ===============================
-    // SEARCH
-    // ===============================
-
     const searchInput =
         document.querySelector("#task-search");
 
@@ -434,11 +383,6 @@ function renderTasks() {
         searchInput
             ? searchInput.value.toLowerCase().trim()
             : "";
-
-
-    // ===============================
-    // FILTER
-    // ===============================
 
     const filterSelect =
         document.querySelector("#task-filter");
@@ -448,62 +392,37 @@ function renderTasks() {
             ? filterSelect.value
             : "all";
 
-
-    // ===============================
-    // SETTINGS
-    // ===============================
-
     const showCompletedCheckbox =
         document.querySelector("#show-completed-tasks");
-
 
     const showCompleted =
         showCompletedCheckbox
             ? showCompletedCheckbox.checked
             : true;
 
-
-    // ===============================
-    // FILTER TASKS
-    // ===============================
-
     let visibleTasks = tasks.filter(function (task) {
 
-        // Search
         const matchesSearch =
             task.name
                 .toLowerCase()
                 .includes(searchText);
 
-
-        // Status filter
         let matchesFilter = true;
 
-
         if (filter === "pending") {
-
             matchesFilter = !task.completed;
-
         }
-
 
         if (filter === "completed") {
-
             matchesFilter = task.completed;
-
         }
-
 
         return matchesSearch && matchesFilter;
 
     });
 
 
-    // ===============================
-    // SETTINGS:
-    // HIDE COMPLETED TASKS
-    // ===============================
-
+    // Hide completed tasks
     if (!showCompleted) {
 
         visibleTasks =
@@ -529,7 +448,6 @@ function renderTasks() {
             : "date";
 
 
-    // Sort by Due Date
     if (sort === "date") {
 
         visibleTasks.sort(function (a, b) {
@@ -547,7 +465,6 @@ function renderTasks() {
     }
 
 
-    // Sort by Name
     if (sort === "name") {
 
         visibleTasks.sort(function (a, b) {
@@ -563,7 +480,6 @@ function renderTasks() {
     }
 
 
-    // Sort by Status
     if (sort === "status") {
 
         visibleTasks.sort(function (a, b) {
@@ -588,7 +504,6 @@ function renderTasks() {
 
     });
 
-
     renderTodayTasks();
 }
 
@@ -603,14 +518,12 @@ function renderTodayTasks() {
 
     const today = getTodayDate();
 
-
     const todayTasks =
         tasks.filter(function (task) {
 
             return task.date === today;
 
         });
-
 
     todayTasks.forEach(function (task) {
 
@@ -631,17 +544,14 @@ addTaskButton.addEventListener("click", function () {
     const taskName =
         prompt("Enter task name:");
 
-
     if (!taskName || !taskName.trim()) {
         return;
     }
-
 
     const taskDate =
         prompt(
             "Enter due date (YYYY-MM-DD):"
         );
-
 
     const newTask = {
 
@@ -655,15 +565,12 @@ addTaskButton.addEventListener("click", function () {
 
     };
 
-
     tasks.push(newTask);
-
 
     localStorage.setItem(
         "tasks",
         JSON.stringify(tasks)
     );
-
 
     renderTasks();
 
@@ -673,8 +580,6 @@ addTaskButton.addEventListener("click", function () {
 
     updateAnalytics();
 
-
-    // Notification
     showToast(
         "Task added successfully! ✅"
     );
@@ -704,7 +609,8 @@ if (taskSearch) {
 // FILTER EVENT
 // ===============================
 
-const taskFilter = document.querySelector("#task-filter");
+const taskFilter =
+    document.querySelector("#task-filter");
 
 if (taskFilter) {
 
@@ -761,7 +667,6 @@ let projects =
 const projectsGrid =
     document.querySelector(".projects-grid");
 
-
 const addProjectButton =
     document.querySelector(".add-project-btn");
 
@@ -772,7 +677,6 @@ const addProjectButton =
 
 const projectCount =
     document.querySelector("#project-count");
-
 
 function updateProjectCount() {
 
@@ -791,11 +695,9 @@ function createProject(project) {
     const projectCard =
         document.createElement("div");
 
-
     projectCard.classList.add(
         "project-card"
     );
-
 
     projectCard.innerHTML = `
 
@@ -828,35 +730,28 @@ function createProject(project) {
         </div>
     `;
 
-
     projectCard.querySelector("h3")
         .textContent = project.name;
-
 
     projectCard.querySelector("p")
         .textContent =
         project.description || "New project";
 
-
     projectCard.querySelector(".tags span")
         .textContent =
         project.technology || "JavaScript";
-
 
     projectsGrid.appendChild(
         projectCard
     );
 
 
-    // ===============================
     // DELETE PROJECT
-    // ===============================
 
     const deleteButton =
         projectCard.querySelector(
             ".delete-project"
         );
-
 
     deleteButton.addEventListener(
         "click",
@@ -869,15 +764,12 @@ function createProject(project) {
 
                 });
 
-
             localStorage.setItem(
                 "projects",
                 JSON.stringify(projects)
             );
 
-
             projectCard.remove();
-
 
             updateProjectCount();
 
@@ -885,15 +777,12 @@ function createProject(project) {
     );
 
 
-    // ===============================
     // EDIT PROJECT
-    // ===============================
 
     const editButton =
         projectCard.querySelector(
             ".edit-project"
         );
-
 
     editButton.addEventListener(
         "click",
@@ -905,7 +794,6 @@ function createProject(project) {
                     project.name
                 );
 
-
             if (
                 newName &&
                 newName.trim()
@@ -914,12 +802,10 @@ function createProject(project) {
                 project.name =
                     newName.trim();
 
-
                 localStorage.setItem(
                     "projects",
                     JSON.stringify(projects)
                 );
-
 
                 projectCard.querySelector(
                     "h3"
@@ -943,7 +829,6 @@ projects.forEach(function (project) {
 
 });
 
-
 updateProjectCount();
 
 
@@ -958,7 +843,6 @@ addProjectButton.addEventListener(
         const projectName =
             prompt("Enter project name:");
 
-
         if (
             !projectName ||
             !projectName.trim()
@@ -968,18 +852,15 @@ addProjectButton.addEventListener(
 
         }
 
-
         const projectDescription =
             prompt(
                 "Enter project description:"
             );
 
-
         const projectTechnology =
             prompt(
                 "Enter technology used:"
             );
-
 
         const newProject = {
 
@@ -995,15 +876,12 @@ addProjectButton.addEventListener(
 
         };
 
-
         projects.push(newProject);
-
 
         localStorage.setItem(
             "projects",
             JSON.stringify(projects)
         );
-
 
         createProject(newProject);
 
@@ -1024,25 +902,19 @@ function showToast(message) {
             "#toast-container"
         );
 
-
     if (!container) {
         return;
     }
 
-
     const toast =
         document.createElement("div");
-
 
     toast.classList.add("toast");
 
     toast.textContent = message;
 
-
     container.appendChild(toast);
 
-
-    // Remove notification after 3 seconds
     setTimeout(function () {
 
         toast.remove();
@@ -1061,18 +933,15 @@ const settingsThemeBtn =
         "#settings-theme-btn"
     );
 
-
 const mainThemeBtn =
     document.querySelector(
         ".theme-btn"
     );
 
-
 const showCompletedCheckbox =
     document.querySelector(
         "#show-completed-tasks"
     );
-
 
 const resetAppButton =
     document.querySelector(
@@ -1086,12 +955,10 @@ const savedShowCompleted =
         "showCompletedTasks"
     );
 
-
 if (showCompletedCheckbox) {
 
     showCompletedCheckbox.checked =
         savedShowCompleted !== "false";
-
 
     showCompletedCheckbox.addEventListener(
         "change",
@@ -1101,7 +968,6 @@ if (showCompletedCheckbox) {
                 "showCompletedTasks",
                 showCompletedCheckbox.checked
             );
-
 
             renderTasks();
 
@@ -1142,33 +1008,27 @@ if (resetAppButton) {
                     "Are you sure you want to reset all DevTrack data? This will delete all tasks and projects."
                 );
 
-
             if (!confirmed) {
                 return;
             }
-
 
             tasks = [];
 
             projects = [];
 
-
             localStorage.removeItem(
                 "tasks"
             );
 
-
             localStorage.removeItem(
                 "projects"
             );
-
 
             taskList.innerHTML = "";
 
             todayTaskList.innerHTML = "";
 
             projectsGrid.innerHTML = "";
-
 
             updateTaskCount();
 
@@ -1178,7 +1038,6 @@ if (resetAppButton) {
 
             updateAnalytics();
 
-
             showToast(
                 "All app data has been reset."
             );
@@ -1186,68 +1045,73 @@ if (resetAppButton) {
         }
     );
 }
-/* =========================================
-   GITHUB CONTRIBUTION CALENDAR
-========================================= */
+
+
+// =========================================
+// GITHUB CONTRIBUTION CALENDAR
+// =========================================
 
 function generateGitHubContributions() {
 
-    const grid = document.querySelector("#contribution-grid");
-    const monthsContainer = document.querySelector("#github-months");
-    const yearElement = document.querySelector("#github-year");
+    const grid =
+        document.querySelector("#contribution-grid");
+
+    // NEW: contribution counter
+    let contributionCount = 0;
+
+    const monthsContainer =
+        document.querySelector("#github-months");
+
+    const yearElement =
+        document.querySelector("#github-year");
+
 
     if (!grid || !monthsContainer) {
         return;
     }
 
 
-    /* -----------------------------------------
-       YEAR
-    ----------------------------------------- */
+    // -----------------------------------------
+    // YEAR
+    // -----------------------------------------
 
-    const year = new Date().getFullYear();
+    const year =
+        yearElement
+            ? Number(yearElement.value)
+            : new Date().getFullYear();
 
-    yearElement.textContent = year;
 
-
-    /* -----------------------------------------
-       CLEAR OLD DATA
-    ----------------------------------------- */
+    // -----------------------------------------
+    // CLEAR OLD DATA
+    // -----------------------------------------
 
     grid.innerHTML = "";
 
     monthsContainer.innerHTML = "";
 
 
-    /* -----------------------------------------
-       START OF YEAR
-    ----------------------------------------- */
+    // -----------------------------------------
+    // START OF YEAR
+    // -----------------------------------------
 
-    const firstDay = new Date(year, 0, 1);
+    const firstDay =
+        new Date(year, 0, 1);
 
-    const lastDay = new Date(year, 11, 31);
+    const lastDay =
+        new Date(year, 11, 31);
 
 
-    /*
-        GitHub starts weeks on Sunday.
-
-        Move backwards to the Sunday
-        before January 1st.
-    */
-
-    const startDate = new Date(firstDay);
+    const startDate =
+        new Date(firstDay);
 
     startDate.setDate(
-        firstDay.getDate() - firstDay.getDay()
+        firstDay.getDate() -
+        firstDay.getDay()
     );
 
 
-    /*
-        Move forward to the Saturday
-        after December 31st.
-    */
-
-    const endDate = new Date(lastDay);
+    const endDate =
+        new Date(lastDay);
 
     endDate.setDate(
         lastDay.getDate() +
@@ -1255,9 +1119,9 @@ function generateGitHubContributions() {
     );
 
 
-    /* -----------------------------------------
-       CALCULATE NUMBER OF WEEKS
-    ----------------------------------------- */
+    // -----------------------------------------
+    // CALCULATE NUMBER OF WEEKS
+    // -----------------------------------------
 
     const totalDays =
         Math.round(
@@ -1269,70 +1133,67 @@ function generateGitHubContributions() {
         Math.ceil(totalDays / 7);
 
 
-    /* -----------------------------------------
-       CSS GRID VARIABLES
-    ----------------------------------------- */
+    // -----------------------------------------
+    // CSS GRID VARIABLES
+    // -----------------------------------------
 
     monthsContainer.style.gridTemplateColumns =
         `repeat(${totalWeeks}, 18px)`;
 
 
-    /* -----------------------------------------
-       GENERATE CONTRIBUTIONS
-    ----------------------------------------- */
+    // -----------------------------------------
+    // GENERATE CONTRIBUTIONS
+    // -----------------------------------------
 
-    const currentDate = new Date(startDate);
+    const currentDate =
+        new Date(startDate);
 
 
-    for (let week = 0; week < totalWeeks; week++) {
+    for (
+        let week = 0;
+        week < totalWeeks;
+        week++
+    ) {
 
-        for (let day = 0; day < 7; day++) {
+        for (
+            let day = 0;
+            day < 7;
+            day++
+        ) {
 
             const cell =
                 document.createElement("span");
 
 
-            /* -----------------------------------------
-               DATE
-            ----------------------------------------- */
+            // DATE
 
             const date =
                 new Date(currentDate);
 
-
             const dateString =
-                date.toISOString().split("T")[0];
+                date.toISOString()
+                    .split("T")[0];
+
+            cell.dataset.date =
+                dateString;
 
 
-            cell.dataset.date = dateString;
-
-
-            /* -----------------------------------------
-               CONTRIBUTION LEVEL
-            ----------------------------------------- */
+            // -----------------------------------------
+            // CONTRIBUTION LEVEL
+            // -----------------------------------------
 
             let level = 0;
 
 
-            /*
-                Only generate activity
-                for dates inside the year.
-            */
-
-            if (date.getFullYear() === year) {
-
-                /*
-                    Deterministic pseudo activity.
-
-                    This is temporary frontend data.
-                    Later we can replace this with
-                    real GitHub API data.
-                */
+            if (
+                date.getFullYear() === year
+            ) {
 
                 const seed =
                     date.getDate() *
                     (date.getMonth() + 1) *
                     (date.getDay() + 2);
+
 
                 if (seed % 17 === 0) {
 
@@ -1351,9 +1212,9 @@ function generateGitHubContributions() {
             }
 
 
-            /* -----------------------------------------
-               APPLY LEVEL
-            ----------------------------------------- */
+            // -----------------------------------------
+            // APPLY LEVEL + COUNT CONTRIBUTION
+            // -----------------------------------------
 
             if (level > 0) {
 
@@ -1361,28 +1222,28 @@ function generateGitHubContributions() {
                     `level-${level}`
                 );
 
+                contributionCount++;
+
             }
 
 
-            /* -----------------------------------------
-               TOOLTIP
-            ----------------------------------------- */
+            // -----------------------------------------
+            // TOOLTIP
+            // -----------------------------------------
 
             cell.title =
                 `${date.toDateString()} — ` +
                 `${level} contribution level`;
 
 
-            /* -----------------------------------------
-               ADD CELL
-            ----------------------------------------- */
+            // -----------------------------------------
+            // ADD CELL
+            // -----------------------------------------
 
             grid.appendChild(cell);
 
 
-            /* -----------------------------------------
-               NEXT DAY
-            ----------------------------------------- */
+            // NEXT DAY
 
             currentDate.setDate(
                 currentDate.getDate() + 1
@@ -1393,9 +1254,9 @@ function generateGitHubContributions() {
     }
 
 
-    /* -----------------------------------------
-       GENERATE MONTH LABELS
-    ----------------------------------------- */
+    // -----------------------------------------
+    // GENERATE MONTH LABELS
+    // -----------------------------------------
 
     const monthNames = [
         "Jan",
@@ -1415,19 +1276,21 @@ function generateGitHubContributions() {
 
     const monthPositions = {};
 
-
-    /*
-        Find the first week where
-        each month appears.
-    */
-
     const calendarDate =
         new Date(startDate);
 
 
-    for (let week = 0; week < totalWeeks; week++) {
+    for (
+        let week = 0;
+        week < totalWeeks;
+        week++
+    ) {
 
-        for (let day = 0; day < 7; day++) {
+        for (
+            let day = 0;
+            day < 7;
+            day++
+        ) {
 
             const date =
                 new Date(calendarDate);
@@ -1454,9 +1317,9 @@ function generateGitHubContributions() {
     }
 
 
-    /* -----------------------------------------
-       CREATE MONTH LABELS
-    ----------------------------------------- */
+    // -----------------------------------------
+    // CREATE MONTH LABELS
+    // -----------------------------------------
 
     Object.keys(monthPositions).forEach(
         function (monthIndex) {
@@ -1464,25 +1327,62 @@ function generateGitHubContributions() {
             const label =
                 document.createElement("span");
 
-
             label.textContent =
                 monthNames[monthIndex];
-
 
             label.style.gridColumn =
                 monthPositions[monthIndex];
 
+            monthsContainer.appendChild(
+                label
+            );
 
-            monthsContainer.appendChild(label);
+        }
+    );
+
+
+    // =========================================
+    // UPDATE CONTRIBUTION COUNT
+    // =========================================
+
+    const contributionElement =
+        document.querySelector(
+            "#github-contributions"
+        );
+
+    if (contributionElement) {
+
+        contributionElement.textContent =
+            contributionCount;
+
+    }
+
+}
+
+
+// =========================================
+// START GITHUB CALENDAR
+// =========================================
+
+generateGitHubContributions();
+
+
+// =========================================
+// GITHUB YEAR SELECTOR
+// =========================================
+
+const githubYear =
+    document.querySelector("#github-year");
+
+if (githubYear) {
+
+    githubYear.addEventListener(
+        "change",
+        function () {
+
+            generateGitHubContributions();
 
         }
     );
 
 }
-
-
-/* =========================================
-   START GITHUB CALENDAR
-========================================= */
-
-generateGitHubContributions();

@@ -2061,3 +2061,26 @@ body.dark-mode .github-legend .legend-box.level-3 {
     }
 
 }
+.github-year-select {
+    padding: 6px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+.github-year-select:focus {
+    border-color: #9ca3af;
+}
+
+/* Dark mode */
+
+body.dark-mode .github-year-select {
+    background: #273449;
+    border-color: #374151;
+    color: #f9fafb;
+}
