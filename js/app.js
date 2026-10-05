@@ -1911,6 +1911,28 @@ function generateGitHubContributions() {
             contributionCount;
 
     }
+    const lastUpdatedElement =
+    document.querySelector(
+        "#github-last-updated"
+    );
+
+if (lastUpdatedElement) {
+
+    const today =
+        new Date();
+
+    lastUpdatedElement.textContent =
+        "Last updated: " +
+        today.toLocaleDateString(
+            "en-US",
+            {
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            }
+        );
+
+}
 
 }
 

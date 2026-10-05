@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+
+/* =========================================================
+   BODY
+========================================================= */
+
 body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Helvetica, Arial, sans-serif;
@@ -15,9 +20,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    APP LAYOUT
-========================================= */
+========================================================= */
 
 .app {
     display: flex;
@@ -25,9 +30,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    SIDEBAR
-========================================= */
+========================================================= */
 
 .sidebar {
     width: 240px;
@@ -57,12 +62,13 @@ body {
     align-items: center;
     gap: 10px;
 
-    font-size: 21px;
-    font-weight: 700;
-    letter-spacing: -0.4px;
-
     padding: 0 12px;
     margin-bottom: 42px;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    letter-spacing: -0.4px;
 }
 
 .logo span {
@@ -117,9 +123,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    MAIN CONTENT
-========================================= */
+========================================================= */
 
 .main-content {
     margin-left: 240px;
@@ -130,9 +136,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    TOPBAR
-========================================= */
+========================================================= */
 
 .topbar {
     display: flex;
@@ -142,18 +148,20 @@ body {
     margin-bottom: 32px;
 }
 
+
+/* WELCOME */
+
 .welcome h1 {
+    margin-bottom: 6px;
+
     font-size: 30px;
     font-weight: 700;
 
     letter-spacing: -0.8px;
-
-    margin-bottom: 6px;
 }
 
 .welcome p {
     color: #6b7280;
-
     font-size: 14px;
 }
 
@@ -174,11 +182,9 @@ body {
     height: 40px;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 8px;
 
     background: white;
-
     color: #374151;
 
     font-size: 18px;
@@ -223,13 +229,12 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    STATISTICS
-========================================= */
+========================================================= */
 
 .stats {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
 
     gap: 20px;
@@ -241,19 +246,25 @@ body {
     background: white;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 14px;
 
     padding: 22px;
 
     display: flex;
     flex-direction: column;
-
     gap: 8px;
 
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
 
     transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #dbeafe;
+
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.07);
 }
 
 .stat-label {
@@ -267,12 +278,12 @@ body {
 }
 
 .stat-card strong {
+    color: #111827;
+
     font-size: 32px;
     font-weight: 700;
 
     letter-spacing: -1px;
-
-    color: #111827;
 }
 
 .stat-card small {
@@ -281,18 +292,10 @@ body {
     font-size: 13px;
 }
 
-.stat-card:hover {
-    transform: translateY(-3px);
 
-    border-color: #dbeafe;
-
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.07);
-}
-
-
-/* =========================================
+/* =========================================================
    DASHBOARD GRID
-========================================= */
+========================================================= */
 
 .dashboard-grid {
     display: grid;
@@ -305,14 +308,13 @@ body {
 }
 
 
-/* COMMON CARD */
+/* COMMON DASHBOARD CARDS */
 
 .activity-card,
 .tasks-card {
     background: white;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 14px;
 
     padding: 24px;
@@ -321,13 +323,12 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    SECTION HEADER
-========================================= */
+========================================================= */
 
 .section-header {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
 
@@ -335,25 +336,23 @@ body {
 }
 
 .section-header h2 {
-    font-size: 17px;
+    margin-bottom: 4px;
 
+    font-size: 17px;
     font-weight: 650;
 
     letter-spacing: -0.3px;
-
-    margin-bottom: 4px;
 }
 
 .section-header p {
     color: #6b7280;
-
     font-size: 13px;
 }
 
 
-/* =========================================
-   ACTIVITY
-========================================= */
+/* =========================================================
+   ACTIVITY CHART
+========================================================= */
 
 .activity-placeholder {
     height: 180px;
@@ -367,7 +366,6 @@ body {
     padding: 20px;
 
     border: 1px solid #f0f0f0;
-
     border-radius: 10px;
 
     background: #fafafa;
@@ -376,11 +374,6 @@ body {
 
     font-size: 13px;
 }
-
-
-/* =========================================
-   ACTIVITY BARS
-========================================= */
 
 .activity-bars {
     width: 100%;
@@ -411,17 +404,17 @@ body {
 }
 
 .activity-day span {
-    font-size: 12px;
+    margin-top: 8px;
 
     color: #777;
 
-    text-align: center;
+    font-size: 12px;
 
-    margin-top: 8px;
+    text-align: center;
 }
 
 
-/* BAR */
+/* BARS */
 
 .bar {
     width: 28px;
@@ -462,13 +455,12 @@ body {
 }
 
 
-/* =========================================
-   TASKS
-========================================= */
+/* =========================================================
+   TASKS — COMMON
+========================================================= */
 
 .task-list {
     display: flex;
-
     flex-direction: column;
 
     gap: 14px;
@@ -476,7 +468,6 @@ body {
 
 .task {
     display: flex;
-
     align-items: center;
 
     gap: 12px;
@@ -491,38 +482,37 @@ body {
     width: 20px;
     height: 20px;
 
-    border: 1px solid #d1d5db;
-
-    border-radius: 5px;
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+
     color: white;
 
     font-size: 12px;
-
-    flex-shrink: 0;
 
     cursor: pointer;
 }
 
 
-/* COMPLETED TASK */
+/* COMPLETED */
 
 .completed .task-check {
     background: #2563eb;
 
-    color: white;
-
     border-color: #2563eb;
+
+    color: white;
 }
 
 .completed .task-name {
-    text-decoration: line-through;
-
     color: #9ca3af;
+
+    text-decoration: line-through;
 }
 
 
@@ -531,61 +521,52 @@ body {
 .task-date {
     margin-left: auto;
 
-    font-size: 13px;
-
     color: #777;
+
+    font-size: 13px;
 }
 
 
-/* DELETE TASK */
+/* TASK BUTTONS */
 
-.delete-task {
-    margin-left: 0;
-
-    border: none;
-
-    background: transparent;
-
-    cursor: pointer;
-
-    font-size: 16px;
-}
-
-
-/* EDIT TASK */
-
+.delete-task,
 .edit-task {
     border: none;
 
     background: transparent;
 
     cursor: pointer;
+}
 
+.delete-task {
+    margin-left: 0;
+
+    font-size: 16px;
+}
+
+.edit-task {
     font-size: 15px;
 }
 
 
-/* =========================================
+/* =========================================================
    TASK SECTION
-========================================= */
+========================================================= */
 
 #tasks {
     margin-top: 30px;
 
-    background: white;
-
     padding: 24px;
 
-    border-radius: 16px;
+    background: white;
 
     border: 1px solid #e5e7eb;
+    border-radius: 16px;
 }
 
 #tasks .section-header {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
 
     margin-bottom: 20px;
@@ -593,7 +574,6 @@ body {
 
 #tasks .task-list {
     display: flex;
-
     flex-direction: column;
 
     gap: 12px;
@@ -601,7 +581,6 @@ body {
 
 #tasks .task {
     display: flex;
-
     align-items: center;
 
     gap: 12px;
@@ -609,7 +588,6 @@ body {
     padding: 14px;
 
     border: 1px solid #eee;
-
     border-radius: 10px;
 
     transition: 0.2s ease;
@@ -626,16 +604,14 @@ body {
     padding: 10px 16px;
 
     border: none;
-
     border-radius: 8px;
 
-    cursor: pointer;
-
     background: #2563eb;
-
     color: white;
 
     font-weight: 500;
+
+    cursor: pointer;
 
     transition: 0.2s ease;
 }
@@ -647,9 +623,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    TASK SEARCH / FILTER / SORT
-========================================= */
+========================================================= */
 
 .task-controls {
     display: flex;
@@ -665,11 +641,9 @@ body {
     padding: 10px 14px;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 8px;
 
     background: #ffffff;
-
     color: #111827;
 
     font-size: 14px;
@@ -686,11 +660,9 @@ body {
     padding: 10px 14px;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 8px;
 
     background: #ffffff;
-
     color: #111827;
 
     font-size: 14px;
@@ -706,18 +678,17 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    PROJECTS
-========================================= */
+========================================================= */
 
 .projects-section {
+    padding: 24px;
+
     background: white;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 12px;
-
-    padding: 24px;
 }
 
 
@@ -750,13 +721,12 @@ body {
 /* PROJECT CARD */
 
 .project-card {
-    border: 1px solid #e5e7eb;
-
-    border-radius: 12px;
-
     padding: 18px;
 
     background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
 
     transition: all 0.2s ease;
 }
@@ -770,25 +740,25 @@ body {
 }
 
 .project-icon {
-    font-size: 28px;
-
     margin-bottom: 14px;
+
+    font-size: 28px;
 }
 
 .project-info h3 {
-    font-size: 16px;
-
     margin-bottom: 8px;
+
+    font-size: 16px;
 }
 
 .project-info p {
+    margin-bottom: 14px;
+
     color: #6b7280;
 
     font-size: 13px;
 
     line-height: 1.5;
-
-    margin-bottom: 14px;
 }
 
 
@@ -796,23 +766,20 @@ body {
 
 .tags {
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 6px;
 }
 
 .tags span {
-    background: #eff6ff;
-
-    color: #2563eb;
-
     padding: 5px 9px;
+
+    background: #eff6ff;
+    color: #2563eb;
 
     border-radius: 6px;
 
     font-size: 11px;
-
     font-weight: 600;
 }
 
@@ -823,28 +790,25 @@ body {
     padding: 10px 16px;
 
     border: none;
-
     border-radius: 8px;
 
-    cursor: pointer;
-
     background: #2563eb;
-
     color: white;
 
     font-weight: 500;
+
+    cursor: pointer;
 }
 
 .edit-project {
     padding: 8px 10px;
 
     border: none;
-
     border-radius: 8px;
 
-    cursor: pointer;
-
     background: white;
+
+    cursor: pointer;
 }
 
 .delete-project {
@@ -860,20 +824,19 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    ANALYTICS
-========================================= */
+========================================================= */
 
 #analytics {
-    background: #ffffff;
+    margin-top: 24px;
 
     padding: 22px;
 
-    border-radius: 14px;
-
-    margin-top: 24px;
+    background: #ffffff;
 
     border: 1px solid #e5e7eb;
+    border-radius: 14px;
 }
 
 .analytics-grid {
@@ -887,48 +850,45 @@ body {
 }
 
 .analytics-card {
-    background: #ffffff;
-
     padding: 24px;
 
-    border-radius: 12px;
+    background: #ffffff;
 
     border: 1px solid #e5e7eb;
+    border-radius: 12px;
 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .analytics-card h3 {
-    font-size: 14px;
+    margin-bottom: 14px;
 
     color: #6b7280;
 
-    margin-bottom: 14px;
+    font-size: 14px;
 }
 
 .analytics-card strong {
-    font-size: 30px;
-
     color: #111827;
 
+    font-size: 30px;
     font-weight: 700;
 }
 
 
-/* =========================================
+/* =========================================================
    SETTINGS
-========================================= */
+========================================================= */
 
 .settings-section {
-    background: #ffffff;
+    margin-top: 24px;
 
     padding: 28px;
 
-    border-radius: 14px;
-
-    margin-top: 24px;
+    background: #ffffff;
 
     border: 1px solid #e5e7eb;
+    border-radius: 14px;
 
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
 }
@@ -939,11 +899,10 @@ body {
 .settings-section > h2 {
     margin: 0 0 4px;
 
-    font-size: 22px;
-
-    font-weight: 700;
-
     color: #111827;
+
+    font-size: 22px;
+    font-weight: 700;
 
     letter-spacing: -0.4px;
 }
@@ -960,18 +919,18 @@ body {
 /* SETTINGS CARD */
 
 .settings-card {
-    background: #ffffff;
+    margin-top: 16px;
 
     padding: 22px;
 
-    margin-top: 16px;
-
-    border-radius: 12px;
+    background: #ffffff;
 
     border: 1px solid #e5e7eb;
+    border-radius: 12px;
 
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .settings-card:hover {
@@ -981,30 +940,19 @@ body {
 }
 
 
-/* SETTING ITEM */
+/* SETTING ITEMS */
 
-.setting-item {
+.setting-item,
+.setting-row {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     gap: 24px;
 }
 
-
-/* SETTING ROW */
-
 .setting-row {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 24px;
-
     padding: 4px 0;
 }
 
@@ -1015,11 +963,10 @@ body {
 .setting-row h3 {
     margin: 0 0 5px;
 
-    font-size: 15px;
-
-    font-weight: 600;
-
     color: #111827;
+
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .setting-item p,
@@ -1040,15 +987,12 @@ body {
     padding: 10px 16px;
 
     border: 1px solid #d1d5db;
-
     border-radius: 8px;
 
     background: #f3f4f6;
-
     color: #111827;
 
     font-size: 14px;
-
     font-weight: 500;
 
     white-space: nowrap;
@@ -1069,7 +1013,6 @@ body {
 
 #show-completed-tasks {
     width: 17px;
-
     height: 17px;
 
     cursor: pointer;
@@ -1084,15 +1027,12 @@ body {
     padding: 10px 16px;
 
     border: none;
-
     border-radius: 8px;
 
     background: #ef4444;
-
     color: #ffffff;
 
     font-size: 14px;
-
     font-weight: 500;
 
     cursor: pointer;
@@ -1107,19 +1047,17 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    TOAST NOTIFICATIONS
-========================================= */
+========================================================= */
 
 #toast-container {
     position: fixed;
 
     top: 20px;
-
     right: 20px;
 
     display: flex;
-
     flex-direction: column;
 
     gap: 12px;
@@ -1128,21 +1066,19 @@ body {
 }
 
 .toast {
-    background: #ffffff;
-
-    color: #111827;
+    min-width: 250px;
 
     padding: 14px 20px;
 
-    border-radius: 10px;
+    background: #ffffff;
+    color: #111827;
 
     border-left: 4px solid #22c55e;
+    border-radius: 10px;
 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 
     font-size: 14px;
-
-    min-width: 250px;
 
     animation: toastSlideIn 0.3s ease;
 }
@@ -1151,6 +1087,7 @@ body {
 /* TOAST ANIMATION */
 
 @keyframes toastSlideIn {
+
     from {
         opacity: 0;
 
@@ -1162,31 +1099,31 @@ body {
 
         transform: translateX(0);
     }
+
 }
 
 
-/* =========================================
-   GITHUB ACTIVITY
-========================================= */
+/* =========================================================
+   GITHUB SECTION
+========================================================= */
 
 #gitHub {
-    background: #ffffff;
+    margin-top: 24px;
 
     padding: 24px;
 
-    margin-top: 24px;
+    background: #ffffff;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 14px;
 
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
 }
 
 
-/* =========================================
+/* =========================================================
    GITHUB PROFILE BUTTON
-========================================= */
+========================================================= */
 
 .github-profile-btn {
     display: inline-flex;
@@ -1196,16 +1133,14 @@ body {
 
     padding: 10px 16px;
 
-    border-radius: 8px;
-
     background: #111827;
-
     color: #ffffff;
+
+    border-radius: 8px;
 
     text-decoration: none;
 
     font-size: 14px;
-
     font-weight: 500;
 
     transition: all 0.2s ease;
@@ -1218,9 +1153,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    GITHUB STATS
-========================================= */
+========================================================= */
 
 .github-stats {
     display: grid;
@@ -1233,62 +1168,80 @@ body {
 }
 
 .github-stat-card {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
     padding: 18px;
 
     background: #f9fafb;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 10px;
 
-    display: flex;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
 
-    flex-direction: column;
+.github-stat-card:hover {
+    transform: translateY(-3px);
 
-    gap: 6px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .github-stat-card span {
+    display: block;
+
     font-size: 13px;
-
-    color: #6b7280;
-
     font-weight: 500;
+
+    opacity: 0.7;
 }
 
 .github-stat-card strong {
-    font-size: 26px;
+    display: block;
 
-    color: #111827;
+    margin-top: 8px;
 
+    font-size: 28px;
     font-weight: 700;
 }
 
+.github-stat-card small {
+    display: block;
 
-/* =========================================
+    margin-top: 6px;
+
+    color: #22c55e;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
    GITHUB ACTIVITY CARD
-========================================= */
+========================================================= */
 
 .github-activity-card {
     padding: 22px;
 
-    border: 1px solid #e5e7eb;
-
-    border-radius: 12px;
-
     background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
 }
 
 
-/* =========================================
-   GITHUB CARD HEADER
-========================================= */
+/* =========================================================
+   GITHUB HEADER
+========================================================= */
 
 .github-card-header {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     margin-bottom: 18px;
@@ -1297,33 +1250,55 @@ body {
 .github-card-header h3 {
     margin: 0 0 4px;
 
-    font-size: 16px;
-
-    font-weight: 600;
-
     color: #111827;
+
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .github-card-header p {
     margin: 0;
 
-    font-size: 13px;
-
     color: #6b7280;
+
+    font-size: 13px;
 }
 
 .github-year {
-    font-size: 13px;
-
     color: #6b7280;
 
+    font-size: 13px;
     font-weight: 500;
 }
 
 
-/* =========================================
+/* YEAR SELECT */
+
+.github-year-select {
+    padding: 6px 10px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+.github-year-select:focus {
+    border-color: #9ca3af;
+}
+
+
+/* =========================================================
    GITHUB CALENDAR
-========================================= */
+========================================================= */
 
 .github-calendar {
     width: 100%;
@@ -1334,18 +1309,15 @@ body {
 }
 
 
-/* =========================================
-   GITHUB MONTH LABELS
-========================================= */
+/* MONTH LABELS */
 
 .github-months {
     display: grid;
 
-    margin-left: 28px;
-
-    margin-bottom: 6px;
-
     height: 18px;
+
+    margin-left: 28px;
+    margin-bottom: 6px;
 
     column-gap: 5px;
 
@@ -1353,17 +1325,15 @@ body {
 }
 
 .github-months span {
-    font-size: 11px;
-
     color: #6b7280;
+
+    font-size: 11px;
 
     white-space: nowrap;
 }
 
 
-/* =========================================
-   GITHUB CALENDAR BODY
-========================================= */
+/* CALENDAR BODY */
 
 .github-calendar-body {
     display: flex;
@@ -1374,34 +1344,30 @@ body {
 }
 
 
-/* =========================================
-   WEEKDAY LABELS
-========================================= */
+/* WEEKDAY LABELS */
 
 .github-weekdays {
     width: 24px;
+
+    flex-shrink: 0;
 
     display: grid;
 
     grid-template-rows: repeat(7, 18px);
 
     gap: 5px;
-
-    flex-shrink: 0;
 }
 
 .github-weekdays span {
-    font-size: 10px;
-
     color: #6b7280;
+
+    font-size: 10px;
 
     line-height: 16px;
 }
 
 
-/* =========================================
-   CONTRIBUTION GRID
-========================================= */
+/* CONTRIBUTION GRID */
 
 .contribution-grid {
     display: grid;
@@ -1409,7 +1375,6 @@ body {
     grid-auto-flow: column;
 
     grid-template-rows: repeat(7, 18px);
-
     grid-template-columns: repeat(53, 18px);
 
     gap: 5px;
@@ -1423,11 +1388,11 @@ body {
 
     min-width: 18px;
 
-    border-radius: 3px;
-
     background: #ebedf0;
 
     border: 1px solid rgba(0, 0, 0, 0.03);
+
+    border-radius: 3px;
 
     transition: transform 0.15s ease;
 }
@@ -1437,9 +1402,7 @@ body {
 }
 
 
-/* =========================================
-   CONTRIBUTION LEVELS
-========================================= */
+/* CONTRIBUTION LEVELS */
 
 .contribution-grid span.level-1 {
     background: #bbf7d0;
@@ -1454,34 +1417,32 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    GITHUB LEGEND
-========================================= */
+========================================================= */
 
 .github-legend {
     display: flex;
 
     align-items: center;
-
     justify-content: flex-end;
 
     gap: 6px;
 
     margin-top: 14px;
 
-    font-size: 12px;
-
     color: #6b7280;
+
+    font-size: 12px;
 }
 
 .github-legend .legend-box {
     width: 14px;
-
     height: 14px;
 
-    border-radius: 3px;
-
     background: #ebedf0;
+
+    border-radius: 3px;
 }
 
 .github-legend .legend-box.level-1 {
@@ -1497,9 +1458,22 @@ body {
 }
 
 
-/* =========================================
-   DARK MODE
-========================================= */
+/* LAST UPDATED */
+
+.github-last-updated {
+    margin-top: 12px;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   DARK MODE — GLOBAL
+========================================================= */
 
 body.dark-mode {
     background: #111827;
@@ -1507,15 +1481,26 @@ body.dark-mode {
     color: #f9fafb;
 }
 
-body.dark-mode .sidebar,
-body.dark-mode .topbar {
+
+/* SIDEBAR */
+
+body.dark-mode .sidebar {
     background: #111827;
 
+    border-color: #1f2937;
+}
+
+
+/* TOPBAR */
+
+body.dark-mode .topbar {
     color: #f9fafb;
 }
 
 
-/* CARDS */
+/* =========================================================
+   DARK MODE — CARDS
+========================================================= */
 
 body.dark-mode .stat-card,
 body.dark-mode .activity-card,
@@ -1533,7 +1518,45 @@ body.dark-mode .analytics-card {
 }
 
 
-/* TEXT */
+/* SETTINGS */
+
+body.dark-mode .settings-section {
+    background: #111827;
+
+    border-color: #374151;
+}
+
+body.dark-mode .settings-card {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+body.dark-mode .settings-card:hover {
+    border-color: #4b5563;
+
+    box-shadow: none;
+}
+
+
+/* GITHUB */
+
+body.dark-mode #gitHub {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+body.dark-mode .github-activity-card {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+
+/* =========================================================
+   DARK MODE — TEXT
+========================================================= */
 
 body.dark-mode h1,
 body.dark-mode h2,
@@ -1544,8 +1567,15 @@ body.dark-mode .analytics-card strong {
     color: #f9fafb;
 }
 
+body.dark-mode .welcome p,
+body.dark-mode .section-header p {
+    color: #9ca3af;
+}
 
-/* NAV */
+
+/* =========================================================
+   DARK MODE — NAVIGATION
+========================================================= */
 
 body.dark-mode .nav-item {
     color: #d1d5db;
@@ -1564,7 +1594,9 @@ body.dark-mode .nav-item.active {
 }
 
 
-/* TASKS */
+/* =========================================================
+   DARK MODE — TASKS
+========================================================= */
 
 body.dark-mode .task {
     background: #273449;
@@ -1578,12 +1610,14 @@ body.dark-mode .task-date {
     color: #9ca3af;
 }
 
-body.dark-mode .section-header p {
+body.dark-mode .completed .task-name {
     color: #9ca3af;
 }
 
 
-/* ACTIVITY */
+/* =========================================================
+   DARK MODE — ACTIVITY
+========================================================= */
 
 body.dark-mode .activity-placeholder,
 body.dark-mode .activity-bars {
@@ -1599,7 +1633,9 @@ body.dark-mode .activity-day span {
 }
 
 
-/* PROJECTS */
+/* =========================================================
+   DARK MODE — PROJECTS
+========================================================= */
 
 body.dark-mode .project-card {
     background: #273449;
@@ -1616,6 +1652,12 @@ body.dark-mode .projects-section p {
     color: #f9fafb;
 }
 
+body.dark-mode .tags span {
+    background: #1e3a5f;
+
+    color: #93c5fd;
+}
+
 
 /* PROJECT BUTTONS */
 
@@ -1628,8 +1670,16 @@ body.dark-mode .add-project-btn {
     border-color: #4b5563;
 }
 
+body.dark-mode .edit-project {
+    background: #374151;
 
-/* SEARCH / FILTER / SORT */
+    color: #f9fafb;
+}
+
+
+/* =========================================================
+   DARK MODE — SEARCH / FILTER / SORT
+========================================================= */
 
 body.dark-mode #task-search,
 body.dark-mode #task-filter,
@@ -1642,7 +1692,9 @@ body.dark-mode #task-sort {
 }
 
 
-/* THEME BUTTON */
+/* =========================================================
+   DARK MODE — THEME BUTTON
+========================================================= */
 
 body.dark-mode .theme-btn {
     background: #273449;
@@ -1653,7 +1705,9 @@ body.dark-mode .theme-btn {
 }
 
 
-/* TOAST */
+/* =========================================================
+   DARK MODE — TOAST
+========================================================= */
 
 body.dark-mode .toast {
     background: #1f2937;
@@ -1664,15 +1718,9 @@ body.dark-mode .toast {
 }
 
 
-/* =========================================
-   DARK MODE - SETTINGS
-========================================= */
-
-body.dark-mode .settings-section {
-    background: #111827;
-
-    border-color: #374151;
-}
+/* =========================================================
+   DARK MODE — SETTINGS
+========================================================= */
 
 body.dark-mode .settings-section > h2 {
     color: #f9fafb;
@@ -1680,18 +1728,6 @@ body.dark-mode .settings-section > h2 {
 
 body.dark-mode .settings-section > p {
     color: #9ca3af;
-}
-
-body.dark-mode .settings-card {
-    background: #1f2937;
-
-    border-color: #374151;
-}
-
-body.dark-mode .settings-card:hover {
-    border-color: #4b5563;
-
-    box-shadow: none;
 }
 
 body.dark-mode .setting-item h3,
@@ -1703,9 +1739,6 @@ body.dark-mode .setting-item p,
 body.dark-mode .setting-row p {
     color: #9ca3af;
 }
-
-
-/* SETTINGS THEME BUTTON */
 
 body.dark-mode #settings-theme-btn {
     background: #374151;
@@ -1719,9 +1752,6 @@ body.dark-mode #settings-theme-btn:hover {
     background: #4b5563;
 }
 
-
-/* RESET BUTTON */
-
 body.dark-mode #reset-app-btn {
     background: #ef4444;
 
@@ -1729,16 +1759,9 @@ body.dark-mode #reset-app-btn {
 }
 
 
-/* =========================================
-   DARK MODE - GITHUB
-========================================= */
-
-body.dark-mode #gitHub {
-    background: #1f2937;
-
-    border-color: #374151;
-}
-
+/* =========================================================
+   DARK MODE — GITHUB
+========================================================= */
 
 /* PROFILE BUTTON */
 
@@ -1753,7 +1776,7 @@ body.dark-mode .github-profile-btn:hover {
 }
 
 
-/* STATS */
+/* STAT CARDS */
 
 body.dark-mode .github-stat-card {
     background: #273449;
@@ -1769,14 +1792,12 @@ body.dark-mode .github-stat-card strong {
     color: #f9fafb;
 }
 
-
-/* ACTIVITY CARD */
-
-body.dark-mode .github-activity-card {
-    background: #1f2937;
-
-    border-color: #374151;
+body.dark-mode .github-stat-card small {
+    color: #4ade80;
 }
+
+
+/* HEADER */
 
 body.dark-mode .github-card-header h3 {
     color: #f9fafb;
@@ -1786,8 +1807,24 @@ body.dark-mode .github-card-header p,
 body.dark-mode .github-year,
 body.dark-mode .github-months span,
 body.dark-mode .github-weekdays span,
-body.dark-mode .github-legend {
+body.dark-mode .github-legend,
+body.dark-mode .github-last-updated {
     color: #9ca3af;
+}
+
+
+/* YEAR SELECT */
+
+body.dark-mode .github-year-select {
+    background: #273449;
+
+    border-color: #374151;
+
+    color: #f9fafb;
+}
+
+body.dark-mode .github-year-select:focus {
+    border-color: #6b7280;
 }
 
 
@@ -1800,7 +1837,7 @@ body.dark-mode .contribution-grid span {
 }
 
 
-/* DARK CONTRIBUTION LEVELS */
+/* CONTRIBUTION LEVELS */
 
 body.dark-mode .contribution-grid span.level-1 {
     background: #166534;
@@ -1815,7 +1852,7 @@ body.dark-mode .contribution-grid span.level-3 {
 }
 
 
-/* DARK LEGEND */
+/* LEGEND */
 
 body.dark-mode .github-legend .legend-box {
     background: #374151;
@@ -1834,14 +1871,14 @@ body.dark-mode .github-legend .legend-box.level-3 {
 }
 
 
-/* =========================================
+/* =========================================================
    RESPONSIVE DESIGN
-========================================= */
+========================================================= */
 
 
-/* =========================================
+/* =========================================================
    TABLET
-========================================= */
+========================================================= */
 
 @media (max-width: 1000px) {
 
@@ -1876,23 +1913,31 @@ body.dark-mode .github-legend .legend-box.level-3 {
 }
 
 
-/* =========================================
+/* =========================================================
    MOBILE
-========================================= */
+========================================================= */
 
 @media (max-width: 700px) {
+
+    /* SIDEBAR */
 
     .sidebar {
         display: none;
     }
 
-    .main-content {
-        margin-left: 0;
 
+    /* MAIN */
+
+    .main-content {
         width: 100%;
+
+        margin-left: 0;
 
         padding: 20px 16px;
     }
+
+
+    /* TOPBAR */
 
     .topbar {
         margin-bottom: 24px;
@@ -1944,7 +1989,7 @@ body.dark-mode .github-legend .legend-box.level-3 {
     }
 
 
-    /* CARDS */
+    /* COMMON CARDS */
 
     .activity-card,
     .tasks-card,
@@ -2002,9 +2047,7 @@ body.dark-mode .github-legend .legend-box.level-3 {
     }
 
 
-    /* =========================================
-       GITHUB MOBILE
-    ========================================= */
+    /* GITHUB */
 
     #gitHub {
         padding: 18px;
@@ -2060,27 +2103,4 @@ body.dark-mode .github-legend .legend-box.level-3 {
         justify-content: flex-start;
     }
 
-}
-.github-year-select {
-    padding: 6px 10px;
-    border: 1px solid #e5e7eb;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #374151;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    outline: none;
-}
-
-.github-year-select:focus {
-    border-color: #9ca3af;
-}
-
-/* Dark mode */
-
-body.dark-mode .github-year-select {
-    background: #273449;
-    border-color: #374151;
-    color: #f9fafb;
 }
