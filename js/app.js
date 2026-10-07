@@ -8,70 +8,74 @@ const themeButton = document.querySelector(".theme-btn");
 const savedTheme = localStorage.getItem("theme");
 
 if (savedTheme === "dark") {
+
     document.body.classList.add("dark-mode");
-    themeButton.textContent = "☀";
-} else {
-    themeButton.textContent = "☾";
-}
 
-// Toggle theme
-themeButton.addEventListener("click", function () {
-
-    document.body.classList.toggle("dark-mode");
-
-    if (document.body.classList.contains("dark-mode")) {
-
+    if (themeButton) {
         themeButton.textContent = "☀";
-
-        localStorage.setItem(
-            "theme",
-            "dark"
-        );
-
-    } else {
-
-        themeButton.textContent = "☾";
-
-        localStorage.setItem(
-            "theme",
-            "light"
-        );
-
     }
 
-});
+} else {
+
+    if (themeButton) {
+        themeButton.textContent = "☾";
+    }
+
+}
+
+
+// Toggle theme
+if (themeButton) {
+
+    themeButton.addEventListener("click", function () {
+
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+
+            themeButton.textContent = "☀";
+
+            localStorage.setItem("theme","dark");
+
+        } else {
+
+            themeButton.textContent = "☾";
+
+            localStorage.setItem("theme","light" );
+
+        }
+
+    });
+
+}
 
 
 // ===============================
 // TASK DATA
 // ===============================
 
-const addTaskButton =
-    document.querySelector(".add-task-btn");
+const addTaskButton = document.querySelector(".add-task-btn");
 
-const taskList =
-    document.querySelector("#tasks .task-list");
+const taskList = document.querySelector("#tasks .task-list");
 
-const todayTaskList =
-    document.querySelector(".tasks-card .task-list");
+const todayTaskList = document.querySelector(".tasks-card .task-list");
 
-let tasks =
-    JSON.parse(
-        localStorage.getItem("tasks")
-    ) || [];
+let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
 
 
 // ===============================
 // TASK COUNT
 // ===============================
 
-const taskCount =
-    document.querySelector("#task-count");
+const taskCount = document.querySelector("#task-count");
 
 function updateTaskCount() {
 
-    taskCount.textContent =
-        tasks.length;
+    if (taskCount) {
+
+        taskCount.textContent = tasks.length;
+
+    }
 
 }
 
@@ -82,30 +86,41 @@ function updateTaskCount() {
 
 function updateAnalytics() {
 
-    const total =
-        tasks.length;
+    const total = tasks.length;
 
-    const completed =
-        tasks.filter(function (task) {
+    const completed = tasks.filter(function (task) {
 
             return task.completed;
 
         }).length;
 
-    const pending =
-        total - completed;
+    const pending = total - completed;
 
-    document.querySelector(
-        "#analytics-total"
-    ).textContent = total;
 
-    document.querySelector(
-        "#analytics-completed"
-    ).textContent = completed;
+    const totalElement = document.querySelector("#analytics-total" );
 
-    document.querySelector(
-        "#analytics-pending"
-    ).textContent = pending;
+    const completedElement = document.querySelector("#analytics-completed" );
+
+    const pendingElement = document.querySelector("#analytics-pending");
+
+
+    if (totalElement) {
+
+        totalElement.textContent = total;
+
+    }
+
+    if (completedElement) {
+
+        completedElement.textContent = completed;
+
+    }
+
+    if (pendingElement) {
+
+        pendingElement.textContent = pending;
+
+    }
 
 }
 
@@ -116,11 +131,9 @@ function updateAnalytics() {
 
 function getTodayDate() {
 
-    const today =
-        new Date();
+    const today = new Date();
 
-    const year =
-        today.getFullYear();
+    const year = today.getFullYear();
 
     const month =
         String(
@@ -139,8 +152,7 @@ function getTodayDate() {
 
 function getDateString(date) {
 
-    const year =
-        date.getFullYear();
+    const year = date.getFullYear();
 
     const month =
         String(
@@ -160,26 +172,30 @@ function getDateString(date) {
 function formatTaskDate(taskDate) {
 
     if (!taskDate) {
+
         return "";
+
     }
 
-    const todayString =
-        getTodayDate();
 
-    const tomorrow =
-        new Date();
+    const todayString = getTodayDate();
+
+
+    const tomorrow = new Date();
 
     tomorrow.setDate(
         tomorrow.getDate() + 1
     );
 
-    const tomorrowString =
-        getDateString(tomorrow);
+
+    const tomorrowString = getDateString( tomorrow );
+
 
     const date =
         new Date(
             taskDate + "T00:00:00"
         );
+
 
     if (taskDate === todayString) {
 
@@ -187,11 +203,13 @@ function formatTaskDate(taskDate) {
 
     }
 
+
     if (taskDate === tomorrowString) {
 
         return "Tomorrow";
 
     }
+
 
     return date.toLocaleDateString(
         "en-US",
@@ -210,27 +228,24 @@ function formatTaskDate(taskDate) {
 
 function updateWeeklyActivity() {
 
-    const activityContainer =
-        document.querySelector(
-            ".activity-placeholder"
-        );
+    const activityContainer = document.querySelector( ".activity-placeholder" );
+
 
     if (!activityContainer) {
+
         return;
+
     }
 
-    const bars =
-        activityContainer.querySelectorAll(
-            ".bar"
-        );
 
-    const labels =
-        activityContainer.querySelectorAll(
-            ".activity-day span"
-        );
+    const bars = activityContainer.querySelectorAll(".bar");
 
-    const today =
-        new Date();
+
+    const labels = activityContainer.querySelectorAll( ".activity-day span");
+
+
+    const today =new Date();
+
 
     today.setHours(
         0,
@@ -239,24 +254,27 @@ function updateWeeklyActivity() {
         0
     );
 
+
     for (
         let i = 6;
         i >= 0;
         i--
     ) {
 
-        const date =
-            new Date(today);
+        const date = new Date(today);
 
-        date.setDate(
-            today.getDate() - i
-        );
+
+        date.setDate( today.getDate() - i );
+
 
         const dateString =
-            getDateString(date);
+            getDateString(
+                date
+            );
 
-        const index =
-            6 - i;
+
+        const index = 6 - i;
+
 
         const dayTasks =
             tasks.filter(function (task) {
@@ -265,6 +283,7 @@ function updateWeeklyActivity() {
 
             });
 
+
         const completedTasks =
             dayTasks.filter(function (task) {
 
@@ -272,32 +291,35 @@ function updateWeeklyActivity() {
 
             }).length;
 
-        const totalTasks =
-            dayTasks.length;
+
+        const totalTasks = dayTasks.length;
+
 
         const percentage =
             totalTasks === 0
                 ? 0
-                : (
+                :
+                (
                     completedTasks /
                     totalTasks
                 ) * 100;
 
-        const height =
-            (percentage / 100) * 120;
 
-        const bar =
-            bars[index];
+        const height = (percentage / 100) * 120;
+
+
+        const bar = bars[index];
+
 
         if (bar) {
 
-            bar.style.height =
-                `${height}px`;
+            bar.style.height = `${height}px`;
 
-            bar.title =
-                `${completedTasks}/${totalTasks} tasks completed (${Math.round(percentage)}%)`;
+
+            bar.title = `${completedTasks}/${totalTasks} tasks completed (${Math.round(percentage)}%)`;
 
         }
+
 
         if (labels[index]) {
 
@@ -322,20 +344,18 @@ function updateWeeklyActivity() {
 
 function createTask(task) {
 
-    const taskElement =
-        document.createElement("div");
+    const taskElement = document.createElement("div");
 
-    taskElement.classList.add(
-        "task"
-    );
+
+    taskElement.classList.add( "task" );
+
 
     if (task.completed) {
 
-        taskElement.classList.add(
-            "completed"
-        );
+        taskElement.classList.add("completed" );
 
     }
+
 
     taskElement.innerHTML = `
 
@@ -359,10 +379,10 @@ function createTask(task) {
 
     `;
 
+
     taskElement.querySelector(
         ".task-name"
-    ).textContent =
-        task.name;
+    ).textContent = task.name;
 
 
     // ===============================
@@ -374,29 +394,30 @@ function createTask(task) {
             ".task-check"
         );
 
+
     checkButton.addEventListener(
         "click",
         function () {
 
-            task.completed =
-                !task.completed;
+            task.completed =  !task.completed;
+
 
             if (task.completed) {
 
-                task.completedDate =
-                    getTodayDate();
+                task.completedDate =  getTodayDate();
 
             } else {
 
-                task.completedDate =
-                    null;
+                task.completedDate =  null;
 
             }
+
 
             localStorage.setItem(
                 "tasks",
                 JSON.stringify(tasks)
             );
+
 
             renderTasks();
 
@@ -405,6 +426,7 @@ function createTask(task) {
             updateWeeklyActivity();
 
             updateAnalytics();
+
 
             if (task.completed) {
 
@@ -433,6 +455,7 @@ function createTask(task) {
             ".edit-task"
         );
 
+
     editButton.addEventListener(
         "click",
         function () {
@@ -443,6 +466,7 @@ function createTask(task) {
                     task.name
                 );
 
+
             if (
                 newTaskName === null
             ) {
@@ -450,6 +474,7 @@ function createTask(task) {
                 return;
 
             }
+
 
             if (
                 !newTaskName.trim()
@@ -463,11 +488,13 @@ function createTask(task) {
 
             }
 
+
             const newTaskDate =
                 prompt(
                     "Edit due date (YYYY-MM-DD):",
                     task.date
                 );
+
 
             if (
                 newTaskDate === null
@@ -477,17 +504,20 @@ function createTask(task) {
 
             }
 
-            task.name =
-                newTaskName.trim();
+
+            task.name = newTaskName.trim();
+
 
             task.date =
                 newTaskDate ||
                 getTodayDate();
 
+
             localStorage.setItem(
                 "tasks",
                 JSON.stringify(tasks)
             );
+
 
             renderTasks();
 
@@ -496,6 +526,7 @@ function createTask(task) {
             updateWeeklyActivity();
 
             updateAnalytics();
+
 
             showToast(
                 "Task updated successfully! ✏️"
@@ -514,6 +545,7 @@ function createTask(task) {
             ".delete-task"
         );
 
+
     deleteButton.addEventListener(
         "click",
         function () {
@@ -527,10 +559,12 @@ function createTask(task) {
                     }
                 );
 
+
             localStorage.setItem(
                 "tasks",
                 JSON.stringify(tasks)
             );
+
 
             renderTasks();
 
@@ -540,12 +574,14 @@ function createTask(task) {
 
             updateAnalytics();
 
+
             showToast(
                 "Task deleted successfully! 🗑️"
             );
 
         }
     );
+
 
     return taskElement;
 
@@ -558,13 +594,21 @@ function createTask(task) {
 
 function renderTasks() {
 
-    taskList.innerHTML =
-        "";
+    if (!taskList) {
+
+        return;
+
+    }
+
+
+    taskList.innerHTML = "";
+
 
     const searchInput =
         document.querySelector(
             "#task-search"
         );
+
 
     const searchText =
         searchInput
@@ -573,25 +617,30 @@ function renderTasks() {
                 .trim()
             : "";
 
+
     const filterSelect =
         document.querySelector(
             "#task-filter"
         );
+
 
     const filter =
         filterSelect
             ? filterSelect.value
             : "all";
 
+
     const showCompletedCheckbox =
         document.querySelector(
             "#show-completed-tasks"
         );
 
+
     const showCompleted =
         showCompletedCheckbox
             ? showCompletedCheckbox.checked
             : true;
+
 
     let visibleTasks =
         tasks.filter(
@@ -604,8 +653,10 @@ function renderTasks() {
                             searchText
                         );
 
+
                 let matchesFilter =
                     true;
+
 
                 if (
                     filter === "pending"
@@ -616,6 +667,7 @@ function renderTasks() {
 
                 }
 
+
                 if (
                     filter === "completed"
                 ) {
@@ -624,6 +676,7 @@ function renderTasks() {
                         task.completed;
 
                 }
+
 
                 return (
                     matchesSearch &&
@@ -661,6 +714,7 @@ function renderTasks() {
             "#task-sort"
         );
 
+
     const sort =
         sortSelect
             ? sortSelect.value
@@ -676,9 +730,11 @@ function renderTasks() {
                     a.date ||
                     "9999-12-31";
 
+
                 const dateB =
                     b.date ||
                     "9999-12-31";
+
 
                 return dateA.localeCompare(
                     dateB
@@ -737,6 +793,7 @@ function renderTasks() {
         }
     );
 
+
     renderTodayTasks();
 
 }
@@ -748,11 +805,18 @@ function renderTasks() {
 
 function renderTodayTasks() {
 
-    todayTaskList.innerHTML =
-        "";
+    if (!todayTaskList) {
 
-    const today =
-        getTodayDate();
+        return;
+
+    }
+
+
+    todayTaskList.innerHTML ="";
+
+
+    const today = getTodayDate();
+
 
     const todayTasks =
         tasks.filter(
@@ -762,6 +826,7 @@ function renderTodayTasks() {
 
             }
         );
+
 
     todayTasks.forEach(
         function (task) {
@@ -780,69 +845,78 @@ function renderTodayTasks() {
 // ADD TASK
 // ===============================
 
-addTaskButton.addEventListener(
-    "click",
-    function () {
+if (addTaskButton) {
 
-        const taskName =
-            prompt(
-                "Enter task name:"
+    addTaskButton.addEventListener(
+        "click",
+        function () {
+
+            const taskName =
+                prompt(
+                    "Enter task name:"
+                );
+
+
+            if (
+                !taskName ||
+                !taskName.trim()
+            ) {
+
+                return;
+
+            }
+
+
+            const taskDate =
+                prompt(
+                    "Enter due date (YYYY-MM-DD):"
+                );
+
+
+            const newTask = {
+
+                name:
+                    taskName.trim(),
+
+                completed:
+                    false,
+
+                date:
+                    taskDate ||
+                    getTodayDate(),
+
+                completedDate:
+                    null
+
+            };
+
+
+            tasks.push(newTask);
+
+
+            localStorage.setItem(
+                "tasks",
+                JSON.stringify(tasks)
             );
 
-        if (
-            !taskName ||
-            !taskName.trim()
-        ) {
 
-            return;
+            renderTasks();
+
+            updateTaskCount();
+
+            updateWeeklyActivity();
+
+            updateAnalytics();
+
+
+            showToast(
+                "Task added successfully! ✅"
+            );
 
         }
+    );
 
-        const taskDate =
-            prompt(
-                "Enter due date (YYYY-MM-DD):"
-            );
-
-        const newTask = {
-
-            name:
-                taskName.trim(),
-
-            completed:
-                false,
-
-            date:
-                taskDate ||
-                getTodayDate(),
-
-            completedDate:
-                null
-
-        };
-
-        tasks.push(
-            newTask
-        );
-
-        localStorage.setItem(
-            "tasks",
-            JSON.stringify(tasks)
-        );
-
-        renderTasks();
-
-        updateTaskCount();
-
-        updateWeeklyActivity();
-
-        updateAnalytics();
-
-        showToast(
-            "Task added successfully! ✅"
-        );
-
-    }
-);
+}
 
 
 // ===============================
@@ -854,6 +928,7 @@ const taskSearch =
         "#task-search"
     );
 
+
 if (taskSearch) {
 
     taskSearch.addEventListener(
@@ -861,6 +936,24 @@ if (taskSearch) {
         function () {
 
             renderTasks();
+
+        }
+    );
+
+
+    // ===============================
+    // ENTER KEY SEARCH SUPPORT
+    // ===============================
+
+    taskSearch.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                renderTasks();
+
+            }
 
         }
     );
@@ -876,6 +969,7 @@ const taskFilter =
     document.querySelector(
         "#task-filter"
     );
+
 
 if (taskFilter) {
 
@@ -899,6 +993,7 @@ const taskSort =
     document.querySelector(
         "#task-sort"
     );
+
 
 if (taskSort) {
 
@@ -944,6 +1039,7 @@ const projectsGrid =
         ".projects-grid"
     );
 
+
 const addProjectButton =
     document.querySelector(
         ".add-project-btn"
@@ -959,10 +1055,15 @@ const projectCount =
         "#project-count"
     );
 
+
 function updateProjectCount() {
 
-    projectCount.textContent =
-        projects.length;
+    if (projectCount) {
+
+        projectCount.textContent =
+            projects.length;
+
+    }
 
 }
 
@@ -973,14 +1074,23 @@ function updateProjectCount() {
 
 function createProject(project) {
 
+    if (!projectsGrid) {
+
+        return;
+
+    }
+
+
     const projectCard =
         document.createElement(
             "div"
         );
 
+
     projectCard.classList.add(
         "project-card"
     );
+
 
     projectCard.innerHTML = `
 
@@ -1014,10 +1124,12 @@ function createProject(project) {
 
     `;
 
+
     projectCard.querySelector(
         "h3"
     ).textContent =
         project.name;
+
 
     projectCard.querySelector(
         "p"
@@ -1025,11 +1137,13 @@ function createProject(project) {
         project.description ||
         "New project";
 
+
     projectCard.querySelector(
         ".tags span"
     ).textContent =
         project.technology ||
         "JavaScript";
+
 
     projectsGrid.appendChild(
         projectCard
@@ -1045,6 +1159,7 @@ function createProject(project) {
             ".delete-project"
         );
 
+
     deleteButton.addEventListener(
         "click",
         function () {
@@ -1058,14 +1173,21 @@ function createProject(project) {
                     }
                 );
 
+
             localStorage.setItem(
                 "projects",
                 JSON.stringify(projects)
             );
 
+
             projectCard.remove();
 
             updateProjectCount();
+
+
+            showToast(
+                "Project deleted successfully! 🗑️"
+            );
 
         }
     );
@@ -1080,6 +1202,7 @@ function createProject(project) {
             ".edit-project"
         );
 
+
     editButton.addEventListener(
         "click",
         function () {
@@ -1090,6 +1213,7 @@ function createProject(project) {
                     project.name
                 );
 
+
             if (
                 newName &&
                 newName.trim()
@@ -1098,15 +1222,22 @@ function createProject(project) {
                 project.name =
                     newName.trim();
 
+
                 localStorage.setItem(
                     "projects",
                     JSON.stringify(projects)
                 );
 
+
                 projectCard.querySelector(
                     "h3"
                 ).textContent =
                     project.name;
+
+
+                showToast(
+                    "Project updated successfully! ✏️"
+                );
 
             }
 
@@ -1128,6 +1259,7 @@ projects.forEach(
     }
 );
 
+
 updateProjectCount();
 
 
@@ -1135,66 +1267,83 @@ updateProjectCount();
 // ADD PROJECT
 // ===============================
 
-addProjectButton.addEventListener(
-    "click",
-    function () {
+if (addProjectButton) {
 
-        const projectName =
-            prompt(
-                "Enter project name:"
+    addProjectButton.addEventListener(
+        "click",
+        function () {
+
+            const projectName =
+                prompt(
+                    "Enter project name:"
+                );
+
+
+            if (
+                !projectName ||
+                !projectName.trim()
+            ) {
+
+                return;
+
+            }
+
+
+            const projectDescription =
+                prompt(
+                    "Enter project description:"
+                );
+
+
+            const projectTechnology =
+                prompt(
+                    "Enter technology used:"
+                );
+
+
+            const newProject = {
+
+                name:
+                    projectName.trim(),
+
+                description:
+                    projectDescription ||
+                    "New project",
+
+                technology:
+                    projectTechnology ||
+                    "JavaScript"
+
+            };
+
+
+            projects.push(
+                newProject
             );
 
-        if (
-            !projectName ||
-            !projectName.trim()
-        ) {
 
-            return;
+            localStorage.setItem(
+                "projects",
+                JSON.stringify(projects)
+            );
+
+
+            createProject(
+                newProject
+            );
+
+
+            updateProjectCount();
+
+
+            showToast(
+                "Project added successfully! 🚀"
+            );
 
         }
+    );
 
-        const projectDescription =
-            prompt(
-                "Enter project description:"
-            );
-
-        const projectTechnology =
-            prompt(
-                "Enter technology used:"
-            );
-
-        const newProject = {
-
-            name:
-                projectName.trim(),
-
-            description:
-                projectDescription ||
-                "New project",
-
-            technology:
-                projectTechnology ||
-                "JavaScript"
-
-        };
-
-        projects.push(
-            newProject
-        );
-
-        localStorage.setItem(
-            "projects",
-            JSON.stringify(projects)
-        );
-
-        createProject(
-            newProject
-        );
-
-        updateProjectCount();
-
-    }
-);
+}
 
 
 // ===============================
@@ -1208,27 +1357,33 @@ function showToast(message) {
             "#toast-container"
         );
 
+
     if (!container) {
 
         return;
 
     }
 
+
     const toast =
         document.createElement(
             "div"
         );
 
+
     toast.classList.add(
         "toast"
     );
 
+
     toast.textContent =
         message;
+
 
     container.appendChild(
         toast
     );
+
 
     setTimeout(
         function () {
@@ -1251,15 +1406,18 @@ const settingsThemeBtn =
         "#settings-theme-btn"
     );
 
+
 const mainThemeBtn =
     document.querySelector(
         ".theme-btn"
     );
 
+
 const showCompletedCheckbox =
     document.querySelector(
         "#show-completed-tasks"
     );
+
 
 const resetAppButton =
     document.querySelector(
@@ -1276,10 +1434,12 @@ const savedShowCompleted =
         "showCompletedTasks"
     );
 
+
 if (showCompletedCheckbox) {
 
     showCompletedCheckbox.checked =
         savedShowCompleted !== "false";
+
 
     showCompletedCheckbox.addEventListener(
         "change",
@@ -1290,7 +1450,15 @@ if (showCompletedCheckbox) {
                 showCompletedCheckbox.checked
             );
 
+
             renderTasks();
+
+
+            showToast(
+                showCompletedCheckbox.checked
+                    ? "Completed tasks are now visible."
+                    : "Completed tasks are now hidden."
+            );
 
         }
     );
@@ -1334,32 +1502,52 @@ if (resetAppButton) {
                     "Are you sure you want to reset all DevTrack data? This will delete all tasks and projects."
                 );
 
+
             if (!confirmed) {
 
                 return;
 
             }
 
+
             tasks = [];
 
             projects = [];
+
 
             localStorage.removeItem(
                 "tasks"
             );
 
+
             localStorage.removeItem(
                 "projects"
             );
 
-            taskList.innerHTML =
-                "";
 
-            todayTaskList.innerHTML =
-                "";
+            if (taskList) {
 
-            projectsGrid.innerHTML =
-                "";
+                taskList.innerHTML =
+                    "";
+
+            }
+
+
+            if (todayTaskList) {
+
+                todayTaskList.innerHTML =
+                    "";
+
+            }
+
+
+            if (projectsGrid) {
+
+                projectsGrid.innerHTML =
+                    "";
+
+            }
+
 
             updateTaskCount();
 
@@ -1368,6 +1556,7 @@ if (resetAppButton) {
             updateWeeklyActivity();
 
             updateAnalytics();
+
 
             showToast(
                 "All app data has been reset."
@@ -1390,15 +1579,18 @@ function generateGitHubContributions() {
             "#contribution-grid"
         );
 
+
     const monthsContainer =
         document.querySelector(
             "#github-months"
         );
 
+
     const yearElement =
         document.querySelector(
             "#github-year"
         );
+
 
     const contributionElement =
         document.querySelector(
@@ -1454,6 +1646,7 @@ function generateGitHubContributions() {
             1
         );
 
+
     const lastDay =
         new Date(
             year,
@@ -1462,15 +1655,11 @@ function generateGitHubContributions() {
         );
 
 
-    /*
-        Move backwards to the Sunday
-        before January 1st.
-    */
-
     const startDate =
         new Date(
             firstDay
         );
+
 
     startDate.setDate(
         firstDay.getDate() -
@@ -1478,15 +1667,11 @@ function generateGitHubContributions() {
     );
 
 
-    /*
-        Move forward to the Saturday
-        after December 31st.
-    */
-
     const endDate =
         new Date(
             lastDay
         );
+
 
     endDate.setDate(
         lastDay.getDate() +
@@ -1504,6 +1689,7 @@ function generateGitHubContributions() {
             (1000 * 60 * 60 * 24)
         ) + 1;
 
+
     const totalWeeks =
         Math.round(
             totalDays / 7
@@ -1514,18 +1700,18 @@ function generateGitHubContributions() {
     // CALENDAR SIZE
     // =========================================
 
-    /*
-        These values MUST be the same
-        for both the contribution grid
-        and the month labels.
-    */
+    const cellSize =
+        18;
 
-    const cellSize = 18;
 
-    const cellGap = 4;
+    const cellGap =
+        4;
+
 
     const columnStep =
-        cellSize + cellGap;
+        cellSize +
+        cellGap;
+
 
     const calendarWidth =
         (
@@ -1545,20 +1731,26 @@ function generateGitHubContributions() {
     grid.style.display =
         "grid";
 
+
     grid.style.gridTemplateColumns =
         `repeat(${totalWeeks}, ${cellSize}px)`;
+
 
     grid.style.gridTemplateRows =
         `repeat(7, ${cellSize}px)`;
 
+
     grid.style.gridAutoFlow =
         "column";
+
 
     grid.style.columnGap =
         `${cellGap}px`;
 
+
     grid.style.rowGap =
         `${cellGap}px`;
+
 
     grid.style.width =
         `${calendarWidth}px`;
@@ -1568,29 +1760,21 @@ function generateGitHubContributions() {
     // MONTH LABEL CONTAINER
     // =========================================
 
-    /*
-        IMPORTANT:
-
-        We are NOT using flexbox or
-        space-between for month labels.
-
-        The month container uses the exact
-        same width as the contribution grid.
-
-        This fixes the December alignment issue.
-    */
-
     monthsContainer.style.position =
         "relative";
+
 
     monthsContainer.style.display =
         "block";
 
+
     monthsContainer.style.width =
         `${calendarWidth}px`;
 
+
     monthsContainer.style.minWidth =
         `${calendarWidth}px`;
+
 
     monthsContainer.style.height =
         "20px";
@@ -1600,7 +1784,8 @@ function generateGitHubContributions() {
     // CONTRIBUTION COUNT
     // =========================================
 
-    let contributionCount = 0;
+    let contributionCount =
+        0;
 
 
     // =========================================
@@ -1647,19 +1832,17 @@ function generateGitHubContributions() {
                     "span"
                 );
 
+
             const date =
                 new Date(
                     currentDate
                 );
 
 
-            // =========================================
-            // DATE
-            // =========================================
-
             cell.classList.add(
                 "contribution-cell"
             );
+
 
             cell.dataset.date =
                 getDateString(
@@ -1674,16 +1857,12 @@ function generateGitHubContributions() {
             const outsideYear =
                 date.getFullYear() !== year;
 
-            if (outsideYear) {
 
-                /*
-                    Keep the cell in the grid
-                    so week alignment stays correct,
-                    but make it invisible.
-                */
+            if (outsideYear) {
 
                 cell.style.visibility =
                     "hidden";
+
 
                 cell.title =
                     "";
@@ -1695,18 +1874,11 @@ function generateGitHubContributions() {
             // CONTRIBUTION LEVEL
             // =========================================
 
-            let level = 0;
+            let level =
+                0;
 
 
             if (!outsideYear) {
-
-                /*
-                    Temporary deterministic
-                    activity generator.
-
-                    Later we can replace this
-                    with real GitHub API data.
-                */
 
                 const seed =
                     date.getDate() *
@@ -1718,19 +1890,22 @@ function generateGitHubContributions() {
                     seed % 17 === 0
                 ) {
 
-                    level = 3;
+                    level =
+                        3;
 
                 } else if (
                     seed % 11 === 0
                 ) {
 
-                    level = 2;
+                    level =
+                        2;
 
                 } else if (
                     seed % 5 === 0
                 ) {
 
-                    level = 1;
+                    level =
+                        1;
 
                 }
 
@@ -1747,6 +1922,7 @@ function generateGitHubContributions() {
                     `level-${level}`
                 );
 
+
                 contributionCount++;
 
             }
@@ -1760,6 +1936,7 @@ function generateGitHubContributions() {
 
                 const contributionAmount =
                     level * 3;
+
 
                 cell.title =
                     `${contributionAmount} contributions · ` +
@@ -1826,18 +2003,6 @@ function generateGitHubContributions() {
     // =========================================
     // CREATE MONTH LABELS
     // =========================================
-
-    /*
-        Find the exact calendar week
-        containing the first day of
-        each month.
-
-        We then position the label
-        at that same column.
-
-        This is the important fix
-        for the December problem.
-    */
 
     for (
         let monthIndex = 0;
@@ -1911,28 +2076,36 @@ function generateGitHubContributions() {
             contributionCount;
 
     }
+
+
+    // =========================================
+    // LAST UPDATED
+    // =========================================
+
     const lastUpdatedElement =
-    document.querySelector(
-        "#github-last-updated"
-    );
-
-if (lastUpdatedElement) {
-
-    const today =
-        new Date();
-
-    lastUpdatedElement.textContent =
-        "Last updated: " +
-        today.toLocaleDateString(
-            "en-US",
-            {
-                month: "long",
-                day: "numeric",
-                year: "numeric"
-            }
+        document.querySelector(
+            "#github-last-updated"
         );
 
-}
+
+    if (lastUpdatedElement) {
+
+        const today =
+            new Date();
+
+
+        lastUpdatedElement.textContent =
+            "Last updated: " +
+            today.toLocaleDateString(
+                "en-US",
+                {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            );
+
+    }
 
 }
 
