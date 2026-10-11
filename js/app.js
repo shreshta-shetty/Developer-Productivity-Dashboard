@@ -60,8 +60,67 @@ const taskList = document.querySelector("#tasks .task-list");
 
 const todayTaskList = document.querySelector(".tasks-card .task-list");
 
-let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = JSON.parse(localStorage.getItem("tasks"));
 
+if (tasks === null) {
+
+    tasks = [
+        {
+            name: "Build portfolio homepage",
+            completed: true,
+            date: "2026-10-11",
+            completedDate: "2026-10-11"
+        },
+        {
+            name: "Practice JavaScript",
+            completed: true,
+            date: "2026-10-11",
+            completedDate: "2026-10-11"
+        },
+        {
+            name: "Complete LeetCode problems",
+            completed: true,
+            date: "2026-10-11",
+            completedDate: "2026-10-11"
+        },
+        {
+            name: "Study Machine Learning",
+            completed: true,
+            date: "2026-10-11",
+            completedDate: "2026-10-11"
+        },
+        {
+            name: "Update GitHub profile",
+            completed: false,
+            date: "2026-10-12",
+            completedDate: null
+        },
+        {
+            name: "Build responsive UI",
+            completed: false,
+            date: "2026-10-13",
+            completedDate: null
+        },
+        {
+            name: "Learn Git and GitHub",
+            completed: false,
+            date: "2026-10-14",
+            completedDate: null
+        },
+        {
+            name: "Review HTML and CSS",
+            completed: false,
+            date: "2026-10-15",
+            completedDate: null
+        }
+    ];
+
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
+
+}
 
 // ===============================
 // TASK COUNT
@@ -1026,13 +1085,68 @@ updateAnalytics();
 // PROJECT DATA
 // ===============================
 
-let projects =
-    JSON.parse(
-        localStorage.getItem(
-            "projects"
-        )
-    ) || [];
+let projects = JSON.parse(
+    localStorage.getItem("projects")
+);
 
+if (projects === null) {
+    projects = [
+        {
+            name: "DevTrack",
+            description: "Developer productivity dashboard",
+            technology: "HTML, CSS, JavaScript"
+        },
+        {
+            name: "Animal Sound Detection",
+            description: "Animal sound classification system",
+            technology: "Python, TensorFlow, Streamlit"
+        },
+        {
+            name: "EventHub",
+            description: "Event management platform",
+            technology: "PHP, MySQL, Bootstrap"
+        },
+        {
+            name: "Voting System",
+            description: "Online voting system",
+            technology: "PHP, MySQL"
+        }
+    ];
+
+    localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+if (projects === null) {
+
+    projects = [
+        {
+            name: "DevTrack",
+            description: "Developer productivity dashboard",
+            technologies: ["HTML", "CSS", "JavaScript"]
+        },
+        {
+            name: "Animal Sound Detection",
+            description: "AI-powered animal sound classification system",
+            technologies: ["Python", "TensorFlow", "Streamlit"]
+        },
+        {
+            name: "EventHub",
+            description: "Event management and registration platform",
+            technologies: ["PHP", "MySQL", "Bootstrap"]
+        },
+        {
+            name: "Voting System",
+            description: "Online voting system with user management",
+            technologies: ["PHP", "MySQL"]
+        }
+    ];
+
+    localStorage.setItem(
+        "projects",
+        JSON.stringify(projects)
+    );
+
+}
 
 const projectsGrid =
     document.querySelector(
