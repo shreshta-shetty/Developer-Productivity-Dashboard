@@ -137,7 +137,35 @@ function updateTaskCount() {
     }
 
 }
+const goalProgress = document.querySelector("#goal-progress");
 
+function updateGoalProgress() {
+
+    if (goalProgress) {
+
+        const totalTasks = tasks.length;
+
+        const completedTasks = tasks.filter(
+            function(task) {
+                return task.completed;
+            }
+        ).length;
+
+        let progress = 0;
+
+        if (totalTasks > 0) {
+
+            progress = Math.round(
+                (completedTasks / totalTasks) * 100
+            );
+
+        }
+
+        goalProgress.textContent = progress + "%";
+
+    }
+
+}
 
 // ===============================
 // ANALYTICS
@@ -481,6 +509,7 @@ function createTask(task) {
             renderTasks();
 
             updateTaskCount();
+            updateGoalProgress();
 
             updateWeeklyActivity();
 
@@ -581,6 +610,7 @@ function createTask(task) {
             renderTasks();
 
             updateTaskCount();
+            updateGoalProgress();
 
             updateWeeklyActivity();
 
@@ -628,6 +658,7 @@ function createTask(task) {
             renderTasks();
 
             updateTaskCount();
+            updateGoalProgress();
 
             updateWeeklyActivity();
 
@@ -962,6 +993,7 @@ if (addTaskButton) {
             renderTasks();
 
             updateTaskCount();
+            updateGoalProgress();
 
             updateWeeklyActivity();
 
@@ -1075,6 +1107,7 @@ if (taskSort) {
 renderTasks();
 
 updateTaskCount();
+updateGoalProgress();
 
 updateWeeklyActivity();
 
@@ -1664,6 +1697,7 @@ if (resetAppButton) {
 
 
             updateTaskCount();
+            updateGoalProgress();
 
             updateProjectCount();
 
